@@ -22,13 +22,15 @@ module.exports = {
   },
   getEngineerByIdModel: (enId) => {
     return new Promise((resolve, reject) => {
-      const query = `SELECT en.en_id, ac.ac_id, ac.ac_name, en.en_job_title,en.en_job_type,
-      en.en_location, en.en_description, en_profile_pict
+      const query = `SELECT en.en_id, ac.ac_id, ac.ac_name, en.en_job_title, en.en_job_type,
+      en.en_location, en.en_description, en.en_profile_pict, sk.sk_skill_name
       FROM engineer en
       JOIN account ac
-      ON (ac.ac_id = en.ac_id) WHERE ?`
+      ON (ac.ac_id = en.ac_id)
+      JOIN skill sk 
+        ON (sk.en_id = en.en_id) WHERE en.en_id = ${enId}`
 
-      db.query(query, { en_id: enId }, (err, result, fields) => {
+      db.query(query, (err, result, fields) => {
         if (!err) {
           resolve(result)
         } else {
@@ -70,7 +72,7 @@ module.exports = {
         ac.ac_name,
         en.en_job_title,
         en.en_job_type,
-        en.en_location
+        en.en_location, en.en_description, en.en_profile_pict, sk.sk_skill_name
         FROM engineer en
         JOIN account ac 
         ON (ac.ac_id = en.ac_id)
