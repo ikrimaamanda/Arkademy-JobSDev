@@ -65,28 +65,27 @@ module.exports = {
   },
   getSearchEngineerModel: (paginate) => {
     return new Promise((resolve, reject) => {
-      const query = `
-        SELECT en.en_id,
-               ac.ac_id,
-               ac.ac_name,
-               en.en_job_title,
-               en.en_job_type,
-               en.en_location
-          FROM engineer en
-          JOIN account ac 
-            ON (ac.ac_id = en.ac_id)
-          JOIN skill sk 
-            ON (sk.en_id = en.en_id)
-         WHERE ac.ac_name
-          LIKE '%${paginate.search}%'
-          OR en.en_job_title
-          LIKE '%${paginate.search}%'
-            OR sk.sk_skill_name
-          LIKE '%${paginate.search}%'
-      GROUP BY ac.ac_name
-         LIMIT ${paginate.limit} 
+      const query = `SELECT en.en_id,
+        ac.ac_id,
+        ac.ac_name,
+        en.en_job_title,
+        en.en_job_type,
+        en.en_location
+        FROM engineer en
+        JOIN account ac 
+        ON (ac.ac_id = en.ac_id)
+        JOIN skill sk 
+        ON (sk.en_id = en.en_id)
+        WHERE ac.ac_name
+        LIKE '%${paginate.search}%'
+        OR en.en_job_title
+        LIKE '%${paginate.search}%'
+        OR sk.sk_skill_name
+        LIKE '%${paginate.search}%'
+        GROUP BY ac.ac_name
+        LIMIT ${paginate.limit} 
         OFFSET ${paginate.offset}
-      `
+        `
 
       db.query(query, (error, results, _fields) => {
         if (!error) {
