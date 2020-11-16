@@ -45,24 +45,20 @@ module.exports = {
   updateAllPortfolioById: async (req, res) => {
     try {
       const { portfolioId } = req.params
-      const { portfolioName, portfolioDesc, portfolioLinkPub, portfolioLinkRepo, portfolioWorkPlace, portfolioType, portfolioImage } = req.body
       const resultSelect = await getPortfolioByIdModel(portfolioId)
 
-      if (portfolioName.trim() && portfolioDesc.trim() && portfolioLinkPub.trim() && portfolioLinkRepo.trim() && portfolioWorkPlace.trim() && portfolioType.trim() && portfolioImage.trim()) {
-        if (resultSelect.length) {
-          const resultUpdate = await updateAllPortfolioByIdModel(portfolioName, portfolioDesc, portfolioLinkPub, portfolioLinkRepo, portfolioWorkPlace, portfolioType, portfolioImage, portfolioId)
-          if (resultUpdate.affectedRows) {
-            statusUpdateData(res, resultUpdate)
-          } else {
-            statusFailedUpdate(res, resultUpdate)
-          }
+      if (resultSelect.length) {
+        const resultUpdate = await updateAllPortfolioByIdModel(req.body, portfolioId)
+        if (resultUpdate.affectedRows) {
+          statusUpdateData(res, resultUpdate)
         } else {
-          statusNotFound(res, resultSelect)
+          statusFailedUpdate(res, resultUpdate)
         }
       } else {
-        statusMustFillAllFields(res, resultSelect)
+        statusNotFound(res, resultSelect)
       }
     } catch (error) {
+      console.log(error)
       statusErrorServer(res, error)
     }
   },

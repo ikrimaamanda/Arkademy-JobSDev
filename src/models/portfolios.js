@@ -38,11 +38,11 @@ module.exports = {
       })
     })
   },
-  updateAllPortfolioByIdModel: (portfolioName, portfolioDesc, portfolioLinkPub, portfolioLinkRepo, portfolioWorkPlace, portfolioType, portfolioImage, portfolioId) => {
+  updateAllPortfolioByIdModel: (data, portfolioId) => {
     return new Promise((resolve, reject) => {
-      const query = `UPDATE portfolio SET pr_app_name = '${portfolioName}', pr_description = '${portfolioDesc}', pr_link_pub = '${portfolioLinkPub}', pr_link_repo = '${portfolioLinkRepo}', pr_workplace = '${portfolioWorkPlace}', pr_type = '${portfolioType}', pr_image = '${portfolioImage}' WHERE pr_id = '${portfolioId}'`
+      const query = `UPDATE portfolio SET ? WHERE pr_id = ${portfolioId}`
 
-      db.query(query, (err, result, fields) => {
+      db.query(query, data, (err, result, fields) => {
         if (!err) {
           resolve(result)
         } else {
