@@ -45,20 +45,15 @@ module.exports = {
   updateAllAccountById: async (req, res) => {
     try {
       const { accountId } = req.params
-      const { accountName, accountPhoneNumber, accountPassword } = req.body
       const resultSelect = await getAccountByIdModel(accountId)
 
-      if (accountName.trim() && accountPhoneNumber.trim() && accountPassword.trim()) {
-        if (resultSelect.length) {
-          const resultUpdate = await updateAllAccountByIdModel(accountName, accountPhoneNumber, accountPassword, accountId)
-          if (resultUpdate.affectedRows) {
-            statusUpdateData(res, resultUpdate)
-          } else {
-            statusFailedUpdate(res, resultUpdate)
-          }
+      if (resultSelect.length) {
+        const resultUpdate = await updateAllAccountByIdModel(req.body, accountId)
+        if (resultUpdate.affectedRows) {
+          statusUpdateData(res, resultUpdate)
+        } else {
+          statusFailedUpdate(res, resultUpdate)
         }
-      } else {
-        statusMustFillAllFields(res, resultSelect)
       }
     } catch (error) {
       statusErrorServer(res, error)

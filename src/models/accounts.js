@@ -58,11 +58,11 @@ module.exports = {
       })
     })
   },
-  updateAllAccountByIdModel: (accountName, accountPhoneNumber, accountPassword, accountId) => {
+  updateAllAccountByIdModel: (data, accountId) => {
     return new Promise((resolve, reject) => {
-      const query = `UPDATE account SET ac_name = '${accountName}', ac_phone_number = '${accountPhoneNumber}', ac_password = '${accountPassword}' WHERE ac_id = '${accountId}'`
+      const query = `UPDATE account SET ? WHERE ac_id = '${accountId}'`
 
-      db.query(query, (err, result, fields) => {
+      db.query(query, data, (err, result, fields) => {
         if (!err) {
           resolve(result)
         } else {
