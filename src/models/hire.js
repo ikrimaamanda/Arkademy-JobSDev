@@ -67,5 +67,18 @@ module.exports = {
         }
       })
     })
+  },
+  deleteHireByIdModel: (hireId) => {
+    return new Promise((resolve, reject) => {
+      const query = `DELETE FROM hire WHERE hr_id = ${hireId}`
+
+      db.query(query, (err, result, fields) => {
+        if (!err) {
+          resolve(result)
+        } else {
+          reject(new Error(err))
+        }
+      })
+    })
   }
 }

@@ -1,7 +1,7 @@
 const { Router } = require('express')
 
 // import controller file
-const { getAllHire, createHire, getHireById, updateAllHireById, getHireByProjectId } = require('../controllers/hire')
+const { getAllHire, createHire, getHireById, updateAllHireById, getHireByProjectId, deleteHireById } = require('../controllers/hire')
 
 const router = Router()
 
@@ -13,5 +13,7 @@ router.post('/', createHire)
 
 router.put('/:hireId', updateAllHireById)
 // router.patch('/:experienceId', updateParsialOrAllPortfolioById)
+
+router.delete('/:hireId', deleteHireById)
 
 module.exports = router

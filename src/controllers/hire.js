@@ -1,6 +1,7 @@
 // const db = require('../helpers/db')
 const { statusRead, statusNotFound, statusErrorServer, statusReadHireById, statusPost, statusFailedAddData, statusUpdateData, statusFailedUpdate, statusReadHireByProjectId, statusMustFillAllFields, statusDeleteById, statusFailedDeleteById } = require('../helpers/statusCRUD')
-const { getAllHireModel, createHireModel, getHireByIdModel, updateAllHireByIdModel, getHireByProjectIdModel } = require('../models/hire')
+const hire = require('../models/hire')
+const { getAllHireModel, createHireModel, getHireByIdModel, updateAllHireByIdModel, getHireByProjectIdModel, deleteHireByIdModel } = require('../models/hire')
 
 module.exports = {
   getAllHire: async (req, res) => {
@@ -77,6 +78,25 @@ module.exports = {
       }
     } catch (error) {
       console.log(error)
+      statusErrorServer(res, error)
+    }
+  },
+  deleteHireById: async (req, res) => {
+    try {
+      const { hireId } = req.params
+      const resultSelect = await getHireByIdModel(hireId)
+
+      if (resultSelect.length) {
+        const resultDelete = await deleteHireByIdModel(hireId)
+        if (resultDelete.affectedRows) {
+          statusDeleteById(res, resultDelete)
+        } else {
+          statusFailedDeleteById(res, resultDelete)
+        }
+      } else {
+        statusNotFound(res, resultSelect)
+      }
+    } catch (error) {
       statusErrorServer(res, error)
     }
   }
