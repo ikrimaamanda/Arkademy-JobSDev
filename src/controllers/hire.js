@@ -1,7 +1,6 @@
 // const db = require('../helpers/db')
-const { statusRead, statusNotFound, statusErrorServer, statusReadHireById, statusPost, statusFailedAddData, statusUpdateData, statusFailedUpdate, statusReadHireByProjectId, statusMustFillAllFields, statusDeleteById, statusFailedDeleteById } = require('../helpers/statusCRUD')
-const hire = require('../models/hire')
-const { getAllHireModel, createHireModel, getHireByIdModel, updateAllHireByIdModel, getHireByProjectIdModel, deleteHireByIdModel } = require('../models/hire')
+const { statusRead, statusNotFound, statusErrorServer, statusReadHireById, statusPost, statusFailedAddData, statusUpdateData, statusFailedUpdate, statusReadHireByProjectId, statusMustFillAllFields, statusDeleteById, statusFailedDeleteById, statusReadHireByEnId } = require('../helpers/statusCRUD')
+const { getAllHireModel, createHireModel, getHireByIdModel, updateAllHireByIdModel, getHireByProjectIdModel, getHireByEnIdModel, deleteHireByIdModel } = require('../models/hire')
 
 module.exports = {
   getAllHire: async (req, res) => {
@@ -44,6 +43,21 @@ module.exports = {
       }
     } catch (error) {
       console.log(error)
+      statusErrorServer(res, error)
+    }
+  },
+  getHireByEnId: async (req, res) => {
+    try {
+      const { enId } = req.params
+
+      const result = await getHireByEnIdModel(enId)
+
+      if (result.length) {
+        statusReadHireByEnId(res, result, enId)
+      } else {
+        statusNotFound(res, result)
+      }
+    } catch (error) {
       statusErrorServer(res, error)
     }
   },

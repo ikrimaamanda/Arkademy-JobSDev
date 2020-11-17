@@ -42,6 +42,19 @@ module.exports = {
       })
     })
   },
+  getHireByEnIdModel: (enId) => {
+    return new Promise((resolve, reject) => {
+      const query = `SELECT * FROM hire WHERE en_id = ${enId}`
+
+      db.query(query, (err, result, fields) => {
+        if (!err) {
+          resolve(result)
+        } else {
+          reject(new Error(err))
+        }
+      })
+    })
+  },
   createHireModel: (data) => {
     return new Promise((resolve, reject) => {
       const query = 'INSERT INTO hire SET ?'

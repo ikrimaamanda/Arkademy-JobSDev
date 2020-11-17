@@ -84,6 +84,24 @@ module.exports = {
     })
   },
 
+  // status success to get project by company id
+  statusReadProjectByCnId: (res, result, cnId) => {
+    res.status(200).send({
+      success: true,
+      message: `Project with company id ${cnId}`,
+      data: result
+    })
+  },
+
+  // status success to get project by engineer id
+  statusReadProjectByEnId: (res, result, enId) => {
+    res.status(200).send({
+      success: true,
+      message: `Project with engineer id ${enId}`,
+      data: result
+    })
+  },
+
   // status success to get hire by id
   statusReadHireById: (res, result, hireId) => {
     res.status(200).send({
@@ -98,7 +116,16 @@ module.exports = {
     res.status(200).send({
       success: true,
       message: `Hire with project id ${projectId}`,
-      data: result[0]
+      data: result
+    })
+  },
+
+  // status success to get hire by engineer id
+  statusReadHireByEnId: (res, result, enId) => {
+    res.status(200).send({
+      success: true,
+      message: `List Hire of engineer id ${enId}`,
+      data: result
     })
   },
 
@@ -122,7 +149,6 @@ module.exports = {
 
   // ============================== END of READ ==============================
 
-  
   // status not found all data
   statusNotFound: (res, result) => {
     res.status(404).send({

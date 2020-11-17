@@ -1,6 +1,6 @@
 // const db = require('../helpers/db')
-const { statusRead, statusNotFound, statusErrorServer, statusReadProjectById, statusPost, statusFailedAddData, statusUpdateData, statusFailedUpdate, statusMustFillAllFields, statusDeleteById, statusFailedDeleteById } = require('../helpers/statusCRUD')
-const { getAllProjectModel, createProjectModel, getProjectByIdModel, deleteProjectByIdModel, updateAllProjectByIdModel } = require('../models/projects')
+const { statusRead, statusNotFound, statusErrorServer, statusReadProjectById, statusPost, statusFailedAddData, statusUpdateData, statusFailedUpdate, statusMustFillAllFields, statusDeleteById, statusFailedDeleteById, statusReadProjectByCnId } = require('../helpers/statusCRUD')
+const { getAllProjectModel, createProjectModel, getProjectByIdModel, getProjectByCnIdModel, deleteProjectByIdModel, updateAllProjectByIdModel } = require('../models/projects')
 
 module.exports = {
   getAllProject: async (req, res) => {
@@ -23,6 +23,20 @@ module.exports = {
       const result = await getProjectByIdModel(projectId)
       if (result.length) {
         statusReadProjectById(res, result, projectId)
+      } else {
+        statusNotFound(res, result)
+      }
+    } catch (error) {
+      statusErrorServer(res, error)
+    }
+  },
+  getProjectByCnId: async (req, res) => {
+    try {
+      const { cnId } = req.params
+      const result = await getProjectByCnIdModel(cnId)
+
+      if (result.length) {
+        statusReadProjectByCnId(res, result, cnId)
       } else {
         statusNotFound(res, result)
       }
