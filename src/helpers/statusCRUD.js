@@ -30,12 +30,30 @@ module.exports = {
     })
   },
 
+  // status success to get portfolio by id
+  statusReadPortfolioByEnId: (res, result, enId) => {
+    res.status(200).send({
+      success: true,
+      message: `Portfolio with engineer id ${enId}`,
+      data: result
+    })
+  },
+
   // status success to get skill by id
   statusReadSkillById: (res, result, skillId) => {
     res.status(200).send({
       success: true,
       message: `Skill with id ${skillId}`,
       data: result[0]
+    })
+  },
+
+  // status success to get skill by id
+  statusReadSkillByEnId: (res, result, enId) => {
+    res.status(200).send({
+      success: true,
+      message: `Skill with engineer id ${enId}`,
+      data: result
     })
   },
 

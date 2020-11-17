@@ -12,6 +12,8 @@ const projectRouter = require('./src/routers/projects')
 const hireRouter = require('./src/routers/hire')
 const engineerRouter = require('./src/routers/engineers')
 const companyRouter = require('./src/routers/companies')
+const morgan = require('morgan')
+const cors = require('cors')
 
 const port = process.env.PORT
 
@@ -25,6 +27,17 @@ app.use('/project', projectRouter)
 app.use('/hire', hireRouter)
 app.use('/engineer', engineerRouter)
 app.use('/company', companyRouter)
+app.use(morgan('dev'))
+app.use(cors())
+
+// COnfig CORS
+app.use((req, res, next) => {
+  res.header('Access-Control-Allow-Origin', '*')
+  res.header(
+    'Access-Control-Allow-Headers',
+
+  )
+})
 
 app.listen(port, () => {
   console.log(`Listen app backend on port ${port}`)

@@ -1,6 +1,6 @@
 // const db = require('../helpers/db')
-const { statusRead, statusNotFound, statusErrorServer, statusReadPortfolioById, statusPost, statusFailedAddData, statusUpdateData, statusFailedUpdate, statusMustFillAllFields, statusDeleteById, statusFailedDeleteById } = require('../helpers/statusCRUD')
-const { getAllPortfolioModel, createPortfolioModel, getPortfolioByIdModel, deletePortfolioByIdModel, updateAllPortfolioByIdModel } = require('../models/portfolios')
+const { statusRead, statusNotFound, statusErrorServer, statusReadPortfolioById, statusPost, statusFailedAddData, statusUpdateData, statusFailedUpdate, statusMustFillAllFields, statusDeleteById, statusFailedDeleteById, statusReadPortfolioByEnId } = require('../helpers/statusCRUD')
+const { getAllPortfolioModel, createPortfolioModel, getPortfolioByIdModel, getPortfolioByEnIdModel, deletePortfolioByIdModel, updateAllPortfolioByIdModel } = require('../models/portfolios')
 
 module.exports = {
   getAllPortfolio: async (req, res) => {
@@ -23,6 +23,22 @@ module.exports = {
       const result = await getPortfolioByIdModel(portfolioId)
       if (result.length) {
         statusReadPortfolioById(res, result, portfolioId)
+      } else {
+        statusNotFound(res, result)
+      }
+    } catch (error) {
+      statusErrorServer(res, error)
+    }
+  },
+  // FIX this part
+  getPortfolioByEnId: async (req, res) => {
+    try {
+      const { enId } = req.params
+      console.log(enId)
+      const result = await getPortfolioByEnIdModel(enId)
+
+      if (result.length) {
+        statusReadPortfolioByEnId(res, result, enId)
       } else {
         statusNotFound(res, result)
       }

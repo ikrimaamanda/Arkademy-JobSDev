@@ -1,12 +1,13 @@
 const { Router } = require('express')
 
 // import controller file
-const { getAllSkill, getSkillById, createSkill, updateAllSkillById, deleteSkillById } = require('../controllers/skill')
+const { getAllSkill, getSkillById, createSkill, updateAllSkillById, deleteSkillById, getSkillByEnId } = require('../controllers/skill')
 
 const router = Router()
 
 router.get('/', getAllSkill)
 router.get('/:skillId', getSkillById)
+router.get('/getSkillByEnId/:enId', getSkillByEnId)
 
 router.post('/', createSkill)
 

@@ -1,3 +1,4 @@
+const { query } = require('express')
 const db = require('../helpers/db')
 
 module.exports = {
@@ -25,6 +26,19 @@ module.exports = {
       })
     })
   },
+  getPortfolioByEnIdModel: (enId) => {
+    return new Promise((resolve, reject) => {
+      const query = `SELECT * FROM portfolio WHERE en_id = ${enId}`
+
+      db.query(query, (err, result, fields) => {
+        if (!err) {
+          resolve(result)
+        } else {
+          reject(new Error(err))
+        }
+      })
+    })
+  },    
   createPortfolioModel: (data) => {
     return new Promise((resolve, reject) => {
       const query = 'INSERT INTO portfolio SET ?'

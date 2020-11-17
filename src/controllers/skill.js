@@ -1,6 +1,6 @@
 // const db = require('../helpers/db')
-const { statusRead, statusNotFound, statusErrorServer, statusReadSkillById, statusPost, statusFailedAddData, statusUpdateData, statusFailedUpdate, statusMustFillAllFields, statusDeleteById, statusFailedDeleteById } = require('../helpers/statusCRUD')
-const { getAllSkillModel, createSkillModel, getSkillByIdModel, deleteSkillByIdModel, updateAllSkillByIdModel } = require('../models/skill')
+const { statusRead, statusNotFound, statusErrorServer, statusReadSkillById, statusPost, statusFailedAddData, statusUpdateData, statusFailedUpdate, statusMustFillAllFields, statusDeleteById, statusFailedDeleteById, statusReadSkillByEnId } = require('../helpers/statusCRUD')
+const { getAllSkillModel, createSkillModel, getSkillByIdModel, deleteSkillByIdModel, updateAllSkillByIdModel, getSkillByEnIdModel } = require('../models/skill')
 
 module.exports = {
   getAllSkill: async (req, res) => {
@@ -22,6 +22,19 @@ module.exports = {
       const result = await getSkillByIdModel(skillId)
       if (result.length) {
         statusReadSkillById(res, result, skillId)
+      } else {
+        statusNotFound(res, result)
+      }
+    } catch (error) {
+      statusErrorServer(res, error)
+    }
+  },
+  getSkillByEnId: async (req, res) => {
+    try {
+      const { enId } = req.params
+      const result = await getSkillByEnIdModel(enId)
+      if (result.length) {
+        statusReadSkillByEnId(res, result, enId)
       } else {
         statusNotFound(res, result)
       }
