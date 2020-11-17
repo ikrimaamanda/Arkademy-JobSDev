@@ -1,6 +1,6 @@
 // const db = require('../helpers/db')
-const { statusRead, statusNotFound, statusErrorServer, statusReadExperienceById, statusPost, statusFailedAddData, statusUpdateData, statusFailedUpdate, statusMustFillAllFields, statusDeleteById, statusFailedDeleteById } = require('../helpers/statusCRUD')
-const { getAllExperienceModel, createExperienceModel, getExperienceByIdModel, deleteExperienceByIdModel, updateAllExperienceByIdModel } = require('../models/experiences')
+const { statusRead, statusNotFound, statusErrorServer, statusReadExperienceById, statusPost, statusFailedAddData, statusUpdateData, statusFailedUpdate, statusMustFillAllFields, statusDeleteById, statusFailedDeleteById, statusReadExperienceByEnId } = require('../helpers/statusCRUD')
+const { getAllExperienceModel, createExperienceModel, getExperienceByIdModel, deleteExperienceByIdModel, updateAllExperienceByIdModel, getExperienceByEnIdModel } = require('../models/experiences')
 
 module.exports = {
   getAllExperience: async (req, res) => {
@@ -27,6 +27,21 @@ module.exports = {
         statusNotFound(res, result)
       }
     } catch (error) {
+      statusErrorServer(res, error)
+    }
+  },
+  getExperienceByEnId: async (req, res) => {
+    try {
+      const { enId } = req.params
+      const result = await getExperienceByEnIdModel(enId)
+
+      if (result.length) {
+        statusReadExperienceByEnId(res, result, enId)
+      } else {
+        statusNotFound(res, result)
+      }
+    } catch (error) {
+      console.log(error)
       statusErrorServer(res, error)
     }
   },

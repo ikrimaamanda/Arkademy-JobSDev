@@ -66,6 +66,15 @@ module.exports = {
     })
   },
 
+  // status success to get experience by id
+  statusReadExperienceByEnId: (res, result, enId) => {
+    res.status(200).send({
+      success: true,
+      message: `Experience with engineer id ${enId}`,
+      data: result
+    })
+  },
+
   // status success to get project by id
   statusReadProjectById: (res, result, projectId) => {
     res.status(200).send({

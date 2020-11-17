@@ -1,4 +1,3 @@
-const { query } = require('express')
 const db = require('../helpers/db')
 
 module.exports = {
@@ -38,7 +37,7 @@ module.exports = {
         }
       })
     })
-  },    
+  },
   createPortfolioModel: (data) => {
     return new Promise((resolve, reject) => {
       const query = 'INSERT INTO portfolio SET ?'

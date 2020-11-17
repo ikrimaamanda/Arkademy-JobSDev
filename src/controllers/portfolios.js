@@ -30,11 +30,9 @@ module.exports = {
       statusErrorServer(res, error)
     }
   },
-  // FIX this part
   getPortfolioByEnId: async (req, res) => {
     try {
       const { enId } = req.params
-      console.log(enId)
       const result = await getPortfolioByEnIdModel(enId)
 
       if (result.length) {
