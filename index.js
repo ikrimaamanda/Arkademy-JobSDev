@@ -1,5 +1,6 @@
 const express = require('express')
-const app = express('express')
+const app = express()
+
 // const db = require('./src/helpers/db')
 
 const bodyParser = require('body-parser')
@@ -12,6 +13,8 @@ const projectRouter = require('./src/routers/projects')
 const hireRouter = require('./src/routers/hire')
 const engineerRouter = require('./src/routers/engineers')
 const companyRouter = require('./src/routers/companies')
+
+// import morgan
 const morgan = require('morgan')
 const cors = require('cors')
 
@@ -28,15 +31,20 @@ app.use('/hire', hireRouter)
 app.use('/engineer', engineerRouter)
 app.use('/company', companyRouter)
 app.use(morgan('dev'))
+app.use(morgan('combined'))
 app.use(cors())
 
-// COnfig CORS
-app.use((req, res, next) => {
-  res.header('Access-Control-Allow-Origin', '*')
-  res.header(
-    'Access-Control-Allow-Headers',
+// Config CORS
+// app.use((req, res, next) => {
+//   res.header('Access-Control-Allow-Origin', '*')
+//   res.header(
+//     'Access-Control-Allow-Headers',
 
-  )
+//   )
+// })
+
+app.get('/', (req, res) => {
+  res.send('Backend by Android2!')
 })
 
 app.listen(port, () => {

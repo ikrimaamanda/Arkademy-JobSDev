@@ -1,7 +1,7 @@
 const { Router } = require('express')
 
 // import controller file
-const {getAllAccount, createAccount, getAccountById, updateAllAccountById, updateParsialOrAllAcccountById } = require('../controllers/accounts')
+const { getAllAccount, createAccount, getAccountById, updateAllAccountById, updateParsialOrAllAcccountById } = require('../controllers/accounts')
 
 const router = Router()
 
