@@ -1,5 +1,5 @@
 // const db = require('../helpers/db')
-const { statusRead, statusNotFound, statusErrorServer, statusReadProjectById, statusPost, statusFailedAddData, statusUpdateData, statusFailedUpdate, statusMustFillAllFields, statusDeleteById, statusFailedDeleteById, statusReadProjectByCnId } = require('../helpers/statusCRUD')
+const { statusRead, statusNotFound, statusErrorServer, statusReadProjectById, statusPost, statusFailedAddData, statusUpdateData, statusFailedUpdate, statusDeleteById, statusFailedDeleteById, statusReadProjectByCnId } = require('../helpers/statusCRUD')
 const { getAllProjectModel, createProjectModel, getProjectByIdModel, getProjectByCnIdModel, deleteProjectByIdModel, updateAllProjectByIdModel } = require('../models/projects')
 
 module.exports = {
@@ -46,7 +46,15 @@ module.exports = {
   },
   createProject: async (req, res) => {
     try {
-      const result = await createProjectModel(req.body)
+      const { projectName, projectDesc, projectDeadline, cnId } = req.body
+      const setData = {
+        pj_project_name: projectName,
+        pj_description: projectDesc,
+        pj_deadline: projectDeadline,
+        pj_image: req.files === undefined ? '' : req.files.projectImage[0].path,
+        cn_id: cnId
+      }
+      const result = await createProjectModel(setData)
 
       if (result.affectedRows) {
         statusPost(res, result)
@@ -63,8 +71,17 @@ module.exports = {
       const { projectId } = req.params
       const resultSelect = await getProjectByIdModel(projectId)
 
+      const { projectName, projectDesc, projectDeadline, cnId } = req.body
+      const setData = {
+        pj_project_name: projectName,
+        pj_description: projectDesc,
+        pj_deadline: projectDeadline,
+        pj_image: req.files === undefined ? '' : req.files.projectImage[0].path,
+        cn_id: cnId
+      }
+
       if (resultSelect.length) {
-        const resultUpdate = await updateAllProjectByIdModel(req.body)
+        const resultUpdate = await updateAllProjectByIdModel(setData)
         if (resultUpdate.affectedRows) {
           statusUpdateData(res, resultUpdate)
         } else {

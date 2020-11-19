@@ -4,6 +4,7 @@ const { Router } = require('express')
 const { getAllPortfolio, createPortfolio, getPortfolioById, getPortfolioByEnId, deletePortfolioById, updateAllPortfolioById } = require('../controllers/portfolios')
 
 const router = Router()
+const uploadImage = require('../middleware/multer')
 
 const { authorizationEngineerAndRecruiter } = require('../middleware/authentication')
 
@@ -11,9 +12,9 @@ router.get('/', getAllPortfolio)
 router.get('/:portfolioId', getPortfolioById)
 router.get('/getPortfolioByEnId/:enId', authorizationEngineerAndRecruiter, getPortfolioByEnId)
 
-router.post('/', createPortfolio)
+router.post('/', uploadImage, createPortfolio)
 
-router.put('/:portfolioId', updateAllPortfolioById)
+router.put('/:portfolioId', uploadImage, updateAllPortfolioById)
 // router.patch('/:portfolioId', updateParsialOrAllPortfolioById)
 
 router.delete('/:portfolioId', deletePortfolioById)
