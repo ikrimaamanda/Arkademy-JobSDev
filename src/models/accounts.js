@@ -41,8 +41,6 @@ module.exports = {
   },
   registrationAccountModel: (setData) => {
     return new Promise((resolve, reject) => {
-      const query = 'INSERT INTO account SET ? '
-
       const dataAcc = {
         ac_name: setData.ac_name,
         ac_email: setData.ac_email,
@@ -52,23 +50,27 @@ module.exports = {
         ac_created_at: setData.ac_created_at
       }
 
-      db.query(query, dataAcc, async (err, res, fields) => {
+      const query = 'INSERT INTO account SET ? '
+
+      db.query(query, dataAcc, async (err, result, fields) => {
         if (!err) {
           const newResult = {
-            ac_id: res.insertId,
+            ac_id: result.insertId,
             ...setData
           }
           delete newResult.ac_password
+          delete newResult.cn_company
+          delete newResult.cn_position
           if (parseInt(setData.ac_level) === 0) {
-            await createEngineerModel(res.insertId)
+            await createEngineerModel(result.insertId)
           } else {
             await createCompanyModel({
-              ac_id: res.insertId,
+              ac_id: result.insertId,
               cn_company: setData.cn_company,
               cn_position: setData.cn_position
             })
           }
-          resolve(res)
+          resolve(newResult)
         } else {
           reject(new Error(err))
         }

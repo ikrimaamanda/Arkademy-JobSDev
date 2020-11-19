@@ -1,5 +1,5 @@
 // const db = require('../helpers/db')
-const { statusRead, statusNotFound, statusErrorServer, statusReadAccountById, statusPost, statusFailedAddData, statusUpdateData, statusFailedUpdate, statusMustFillAllFields, statusCheckEmail, statusRegistration, statusAccountNotRegister } = require('../helpers/statusCRUD')
+const { statusRead, statusNotFound, statusErrorServer, statusReadAccountById, statusUpdateData, statusFailedUpdate, statusCheckEmail } = require('../helpers/statusCRUD')
 const { getAllAccountModel, getAccountEmailModel, registrationAccountModel, getAccountByIdModel, updateAllAccountByIdModel, updateParsialOrAllAcccountByIdModel } = require('../models/accounts')
 const bcrypt = require('bcrypt')
 
@@ -52,12 +52,12 @@ module.exports = {
         statusCheckEmail(res)
       } else {
         const resultRegist = await registrationAccountModel(setData)
-        console.log(resultRegist)
-        if (resultRegist.affectedRows) {
-          statusRegistration(res, setData)
-        } else {
-          statusFailedAddData(res)
-        }
+
+        res.status(200).send({
+          success: true,
+          message: 'Register Success',
+          data: resultRegist
+        })
       }
     } catch (error) {
       statusErrorServer(res, error)
