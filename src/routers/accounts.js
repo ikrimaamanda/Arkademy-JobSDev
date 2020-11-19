@@ -1,11 +1,12 @@
 const { Router } = require('express')
 
 // import controller file
-const { getAllAccount, registrationAccount, loginAccount, getAccountById, updateAllAccountById, updateParsialOrAllAcccountById } = require('../controllers/accounts')
+const { getAllAccount, registrationAccount, loginAccount, getAccountById, updateAllAccountById } = require('../controllers/accounts')
 
 const router = Router()
+const { authorizationRecruiter } = require('../helpers/authentication')
 
-router.get('/', getAllAccount)
+router.get('/', authorizationRecruiter, getAllAccount)
 router.get('/:accountId', getAccountById)
 
 router.post('/registration', registrationAccount)

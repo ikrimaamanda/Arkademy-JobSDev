@@ -200,21 +200,38 @@ module.exports = {
     })
   },
 
-  // status success to register
+  // status email already exist
   statusCheckEmail: (res) => {
     res.status(400).send({
       success: false,
-      message: 'Email/Account already exists'
+      message: 'Email/Account already exist'
     })
   },
 
-  // status success to register
+  // status account not registered
   statusAccountNotRegister: (res) => {
     res.status(400).send({
       success: false,
       message: 'Email/Account not registered!'
     })
   },
+
+  // status to login before access
+  statusHaveToLogin: (res) => {
+    res.status(400).send({
+      success: false,
+      message: 'Please login first!'
+    })
+  },
+
+  // status authorization
+  statusAuthorization: (res) => {
+    res.status(403).send({
+      success: false,
+      message: 'You can not access!'
+    })
+  },
+
 
   // status failed to create data
   statusFailedAddData: (res, result) => {
@@ -223,8 +240,6 @@ module.exports = {
       message: 'Submit data failed'
     })
   },
-
-
 
   // ========== UPDATE ==========
   // status success to update data
