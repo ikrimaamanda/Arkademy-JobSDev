@@ -1,5 +1,5 @@
 // const db = require('../helpers/db')
-const { statusRead, statusNotFound, statusErrorServer, statusReadAccountById, statusPost, statusFailedAddData, statusUpdateData, statusFailedUpdate, statusMustFillAllFields, statusCheckEmail, statusRegistration } = require('../helpers/statusCRUD')
+const { statusRead, statusNotFound, statusErrorServer, statusReadAccountById, statusPost, statusFailedAddData, statusUpdateData, statusFailedUpdate, statusMustFillAllFields, statusCheckEmail, statusRegistration, statusAccountNotRegister } = require('../helpers/statusCRUD')
 const { getAllAccountModel, getAccountEmailModel, registrationAccountModel, getAccountByIdModel, updateAllAccountByIdModel, updateParsialOrAllAcccountByIdModel } = require('../models/accounts')
 const bcrypt = require('bcrypt')
 
@@ -32,13 +32,14 @@ module.exports = {
   },
   registrationAccount: async (req, res) => {
     const { accountName, accountEmail, accountPhoneNumber, accountPassword, accountLevel } = req.body
-    // const salt = bcrypt.genSaltSync(10)
-    // const encryptPassword = bcrypt.hashSync(accountPassword, salt)
+    const salt = bcrypt.genSaltSync(10)
+    const encryptPassword = bcrypt.hashSync(accountPassword, salt)
+
     const setData = {
       ac_name: accountName,
       ac_email: accountEmail,
       ac_phone_number: accountPhoneNumber,
-      ac_password: accountPassword,
+      ac_password: encryptPassword,
       ac_level: accountLevel,
       ac_created_at: new Date()
     }
@@ -48,7 +49,8 @@ module.exports = {
       if (dataUser.length >= 1) {
         statusCheckEmail(res)
       } else {
-        const resultRegist = await registrationAccountModel(req.body)
+        const resultRegist = await registrationAccountModel(setData)
+        console.log(resultRegist)
         if (resultRegist.affectedRows) {
           statusRegistration(res, setData)
         } else {
@@ -60,6 +62,19 @@ module.exports = {
       console.log(error)
     }
   },
+  // loginAccount: async (req, res) => {
+  //   try {
+  //     const {accountEmail, accountPassword} = req.body
+  //     const dataUser = await getAccountEmailModel(accountEmail)
+  //     if(dataUser.length){
+
+  //     } else {
+  //       statusAccountNotRegister(res)
+  //     }
+  //   } catch(error) {
+  //     statusErrorServer(res, error)
+  //   }
+  // },
   updateAllAccountById: async (req, res) => {
     try {
       const { accountId } = req.params

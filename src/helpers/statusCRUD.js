@@ -191,6 +191,14 @@ module.exports = {
     })
   },
 
+  // status success to register
+  statusAccountNotRegister: (res) => {
+    res.status(400).send({
+      success: false,
+      message: 'Email/Account not registered!'
+    })
+  },
+
   // status failed to create data
   statusFailedAddData: (res, result) => {
     res.status(400).send({

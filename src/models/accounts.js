@@ -44,11 +44,12 @@ module.exports = {
       const query = 'INSERT INTO account SET ? '
 
       const dataAcc = {
-        ac_name: setData.accountName,
-        ac_email: setData.accountEmail,
-        ac_phone_number: setData.accountPhoneNumber,
-        ac_password: setData.accountPassword,
-        ac_level: setData.accountLevel
+        ac_name: setData.ac_name,
+        ac_email: setData.ac_email,
+        ac_phone_number: setData.ac_phone_number,
+        ac_password: setData.ac_password,
+        ac_level: setData.ac_level,
+        ac_created_at: setData.ac_created_at
       }
 
       db.query(query, dataAcc, async (err, res, fields) => {
@@ -57,7 +58,7 @@ module.exports = {
             ac_id: res.insertId,
             ...setData
           }
-          delete newResult.user_password
+          delete newResult.ac_password
           if (parseInt(setData.accountLevel) === 0) {
             await createEngineerModel(res.insertId)
           } else {
