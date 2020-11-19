@@ -94,9 +94,18 @@ module.exports = {
     try {
       const { accountId } = req.params
       const resultSelect = await getAccountByIdModel(accountId)
+      const {accountName, accountPhoneNumber, accountPassword} = req.body
+      const salt = bcrypt.genSaltSync(10)
+      const encryptPassword = bcrypt.hashSync(accountPassword, salt)
+
+      const setData = {
+        ac_name: accountName,
+        ac_phone_number: accountPhoneNumber,
+        ac_password: encryptPassword
+      }
 
       if (resultSelect.length) {
-        const resultUpdate = await updateAllAccountByIdModel(req.body, accountId)
+        const resultUpdate = await updateAllAccountByIdModel(setData, accountId)
         if (resultUpdate.affectedRows) {
           statusUpdateData(res, resultUpdate)
         } else {
