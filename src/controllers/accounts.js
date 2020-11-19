@@ -1,7 +1,9 @@
 // const db = require('../helpers/db')
-const { statusRead, statusNotFound, statusErrorServer, statusReadAccountById, statusUpdateData, statusFailedUpdate, statusCheckEmail } = require('../helpers/statusCRUD')
+const { statusRead, statusNotFound, statusErrorServer, statusReadAccountById, statusUpdateData, statusFailedUpdate, statusCheckEmail, statusAccountNotRegister, statusWrongPassword, statusLogin } = require('../helpers/statusCRUD')
 const { getAllAccountModel, getAccountEmailModel, registrationAccountModel, getAccountByIdModel, updateAllAccountByIdModel, updateParsialOrAllAcccountByIdModel } = require('../models/accounts')
 const bcrypt = require('bcrypt')
+const jwt = require('jsonwebtoken')
+require('dotenv')
 
 module.exports = {
   getAllAccount: async (req, res) => {
@@ -52,10 +54,9 @@ module.exports = {
         statusCheckEmail(res)
       } else {
         const resultRegist = await registrationAccountModel(setData)
-
         res.status(200).send({
           success: true,
-          message: 'Register Success',
+          message: 'Registration Success',
           data: resultRegist
         })
       }
@@ -64,19 +65,32 @@ module.exports = {
       console.log(error)
     }
   },
-  // loginAccount: async (req, res) => {
-  //   try {
-  //     const {accountEmail, accountPassword} = req.body
-  //     const dataUser = await getAccountEmailModel(accountEmail)
-  //     if(dataUser.length){
-
-  //     } else {
-  //       statusAccountNotRegister(res)
-  //     }
-  //   } catch(error) {
-  //     statusErrorServer(res, error)
-  //   }
-  // },
+  loginAccount: async (req, res) => {
+    try {
+      const { accountEmail, accountPassword } = req.body
+      const dataUser = await getAccountEmailModel(accountEmail)
+      console.log(dataUser)
+      if (dataUser.length >= 1) {
+        const checkPassword = bcrypt.compareSync(accountPassword, dataUser[0].ac_password)
+        if (checkPassword) {
+          const { ac_id, ac_email, ac_level } = dataUser[0]
+          let payload = {
+            ac_id, ac_email, ac_level
+          }
+          const token = jwt.sign(payload, process.env.JWT_KEY, { expiresIn: '1H' })
+          payload = { ...payload, token }
+          statusLogin(res, payload)
+        } else {
+          statusWrongPassword(res, checkPassword)
+        }
+      } else {
+        statusAccountNotRegister(res)
+      }
+    } catch (error) {
+      statusErrorServer(res, error)
+      console.log(error)
+    }
+  },
   updateAllAccountById: async (req, res) => {
     try {
       const { accountId } = req.params

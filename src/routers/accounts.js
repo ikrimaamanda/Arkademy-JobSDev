@@ -9,7 +9,7 @@ router.get('/', getAllAccount)
 router.get('/:accountId', getAccountById)
 
 router.post('/registration', registrationAccount)
-// router.post('/login', loginAccount)
+router.post('/login', loginAccount)
 
 router.put('/:accountId', updateAllAccountById)
 // router.delete('/:accountId', deleteProjectById)

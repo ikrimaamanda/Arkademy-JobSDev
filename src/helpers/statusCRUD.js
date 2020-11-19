@@ -165,6 +165,14 @@ module.exports = {
     })
   },
 
+  // status wrong password
+  statusWrongPassword: (res, result) => {
+    res.status(400).send({
+      success: false,
+      message: 'Wrong Password!'
+    })
+  },
+
   // ========== CREATE ==========
   // status success to create
   statusPost: (res) => {
@@ -180,6 +188,15 @@ module.exports = {
       success: true,
       message: 'Register account successful',
       data: result
+    })
+  },
+
+  // status success to login
+  statusLogin: (res, payload) => {
+    res.status(200).send({
+      success: true,
+      message: 'Login account successful',
+      data: payload
     })
   },
 
@@ -206,6 +223,8 @@ module.exports = {
       message: 'Submit data failed'
     })
   },
+
+
 
   // ========== UPDATE ==========
   // status success to update data
