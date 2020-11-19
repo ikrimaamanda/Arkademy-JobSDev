@@ -5,9 +5,11 @@ const { getAllPortfolio, createPortfolio, getPortfolioById, getPortfolioByEnId, 
 
 const router = Router()
 
+const { authorizationEngineerAndRecruiter } = require('../middleware/authentication')
+
 router.get('/', getAllPortfolio)
 router.get('/:portfolioId', getPortfolioById)
-router.get('/getPortfolioByEnId/:enId', getPortfolioByEnId)
+router.get('/getPortfolioByEnId/:enId', authorizationEngineerAndRecruiter, getPortfolioByEnId)
 
 router.post('/', createPortfolio)
 

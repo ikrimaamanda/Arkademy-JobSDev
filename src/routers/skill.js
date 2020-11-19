@@ -5,9 +5,11 @@ const { getAllSkill, getSkillById, createSkill, updateAllSkillById, deleteSkillB
 
 const router = Router()
 
+const { authorizationEngineerAndRecruiter } = require('../middleware/authentication')
+
 router.get('/', getAllSkill)
 router.get('/:skillId', getSkillById)
-router.get('/getSkillByEnId/:enId', getSkillByEnId)
+router.get('/getSkillByEnId/:enId', authorizationEngineerAndRecruiter, getSkillByEnId)
 
 router.post('/', createSkill)
 

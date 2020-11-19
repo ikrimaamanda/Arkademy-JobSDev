@@ -33,6 +33,7 @@ app.use('/company', companyRouter)
 app.use(morgan('dev'))
 app.use(morgan('combined'))
 app.use(cors())
+app.use('/image', express.static('./uploads'))
 
 // Config CORS
 app.use((req, res, next) => {

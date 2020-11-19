@@ -74,11 +74,11 @@ module.exports = {
       })
     })
   },
-  updateAllEngineerByIdModel: (engineerId, data) => {
+  updateAllEngineerByIdModel: (engineerId, setData) => {
     return new Promise((resolve, reject) => {
       const query = `UPDATE engineer SET ? WHERE en_id = ${engineerId}`
 
-      db.query(query, data, (err, result, fields) => {
+      db.query(query, setData, (err, result, fields) => {
         if (!err) {
           resolve(result)
         } else {

@@ -93,11 +93,20 @@ module.exports = {
   updateAllEngineerById: async (req, res) => {
     try {
       const { engineerId } = req.params
-      // const { hirePrice, hireMessage, hireStatus, hireDateConfirm } = req.body
       const resultSelect = await getEngineerByIdModel(engineerId)
 
+      const { enJobTitle, enJobType, enLocation, enDesc } = req.body
+
+      const setData = {
+        en_job_title: enJobTitle,
+        en_job_type: enJobType,
+        en_location: enLocation,
+        en_description: enDesc,
+        en_profile_pict: req.file === undefined ? '' : req.file.filename
+      }
+
       if (resultSelect.length) {
-        const resultUpdate = await updateAllEngineerByIdModel(engineerId, req.body)
+        const resultUpdate = await updateAllEngineerByIdModel(engineerId, setData)
         if (resultUpdate.affectedRows) {
           statusUpdateData(res, resultUpdate)
         } else {

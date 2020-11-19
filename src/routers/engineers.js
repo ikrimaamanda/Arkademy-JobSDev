@@ -5,6 +5,8 @@ const { createEngineer, getCompleteEngineerById, getEngineerById, updateAllEngin
 
 const router = Router()
 
+const uploadImage = require('../middleware/multer')
+
 router.get('/', getAllEngineer)
 router.get('/filter/', getFilterEngineer)
 router.get('/:enId', getEngineerById)
@@ -12,7 +14,7 @@ router.get('/completeEngineer/:enId', getCompleteEngineerById)
 
 router.post('/', createEngineer)
 
-router.put('/:engineerId', updateAllEngineerById)
+router.put('/:engineerId', uploadImage, updateAllEngineerById)
 // router.patch('/:engineerId', updateParsialOrAllEngineerById)
 
 module.exports = router

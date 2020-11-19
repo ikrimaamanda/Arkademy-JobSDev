@@ -4,9 +4,9 @@ const { Router } = require('express')
 const { getAllAccount, registrationAccount, loginAccount, getAccountById, updateAllAccountById } = require('../controllers/accounts')
 
 const router = Router()
-const { authorizationRecruiter } = require('../helpers/authentication')
+const { authorizationEngineerAndRecruiter } = require('../middleware/authentication')
 
-router.get('/', authorizationRecruiter, getAllAccount)
+router.get('/', authorizationEngineerAndRecruiter, getAllAccount)
 router.get('/:accountId', getAccountById)
 
 router.post('/registration', registrationAccount)

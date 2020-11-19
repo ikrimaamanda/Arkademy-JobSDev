@@ -5,9 +5,11 @@ const { getAllExperience, createExperience, getExperienceById, getExperienceByEn
 
 const router = Router()
 
+const { authorizationEngineerAndRecruiter } = require('../middleware/authentication')
+
 router.get('/', getAllExperience)
 router.get('/:experienceId', getExperienceById)
-router.get('/getExperienceByEnId/:enId', getExperienceByEnId)
+router.get('/getExperienceByEnId/:enId', authorizationEngineerAndRecruiter, getExperienceByEnId)
 
 router.post('/', createExperience)
 
