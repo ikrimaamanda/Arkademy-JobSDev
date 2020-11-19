@@ -31,7 +31,7 @@ module.exports = {
     }
   },
   registrationAccount: async (req, res) => {
-    const { accountName, accountEmail, accountPhoneNumber, accountPassword, accountLevel } = req.body
+    const { accountName, accountEmail, accountPhoneNumber, accountPassword, accountLevel, companyName, companyPosition } = req.body
     const salt = bcrypt.genSaltSync(10)
     const encryptPassword = bcrypt.hashSync(accountPassword, salt)
 
@@ -41,7 +41,9 @@ module.exports = {
       ac_phone_number: accountPhoneNumber,
       ac_password: encryptPassword,
       ac_level: accountLevel,
-      ac_created_at: new Date()
+      ac_created_at: new Date(),
+      cn_company: companyName,
+      cn_position: companyPosition
     }
     try {
       // action check email
