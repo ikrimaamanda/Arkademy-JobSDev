@@ -59,7 +59,7 @@ module.exports = {
             ...setData
           }
           delete newResult.ac_password
-          if (parseInt(setData.accountLevel) === 0) {
+          if (parseInt(setData.ac_level) === 0) {
             await createEngineerModel(res.insertId)
           } else {
             await createCompanyModel({
