@@ -167,10 +167,27 @@ module.exports = {
 
   // ========== CREATE ==========
   // status success to create
-  statusPost: (res, result) => {
+  statusPost: (res) => {
     res.status(200).send({
       success: true,
       message: 'Success add data'
+    })
+  },
+
+  // status success to register
+  statusRegistration: (res, result) => {
+    res.status(200).send({
+      success: true,
+      message: 'Register account successful',
+      data: result
+    })
+  },
+
+  // status success to register
+  statusCheckEmail: (res) => {
+    res.status(400).send({
+      success: false,
+      message: 'Email/Account already exists'
     })
   },
 
@@ -192,7 +209,7 @@ module.exports = {
   },
 
   // status failed to update data
-  statusFailedUpdate: (res, result) => {
+  statusFailedUpdate: (res) => {
     res.status(400).send({
       success: false,
       message: 'Update data failed'

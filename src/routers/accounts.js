@@ -1,13 +1,13 @@
 const { Router } = require('express')
 
 // import controller file
-const { getAllAccount, createAccount, getAccountById, updateAllAccountById, updateParsialOrAllAcccountById } = require('../controllers/accounts')
+const { getAllAccount, registrationAccount, getAccountById, updateAllAccountById, updateParsialOrAllAcccountById } = require('../controllers/accounts')
 
 const router = Router()
 
 router.get('/', getAllAccount)
 router.get('/:accountId', getAccountById)
-router.post('/', createAccount)
+router.post('/registration', registrationAccount)
 router.put('/:accountId', updateAllAccountById)
 // router.delete('/:accountId', deleteProjectById)
 

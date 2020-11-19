@@ -1,6 +1,7 @@
 // const db = require('../helpers/db')
-const { statusRead, statusNotFound, statusErrorServer, statusReadAccountById, statusPost, statusFailedAddData, statusUpdateData, statusFailedUpdate, statusMustFillAllFields } = require('../helpers/statusCRUD')
-const { getAllAccountModel, createAccountModel, getAccountByIdModel, updateAllAccountByIdModel, updateParsialOrAllAcccountByIdModel } = require('../models/accounts')
+const { statusRead, statusNotFound, statusErrorServer, statusReadAccountById, statusPost, statusFailedAddData, statusUpdateData, statusFailedUpdate, statusMustFillAllFields, statusCheckEmail, statusRegistration } = require('../helpers/statusCRUD')
+const { getAllAccountModel, getAccountEmailModel, registrationAccountModel, getAccountByIdModel, updateAllAccountByIdModel, updateParsialOrAllAcccountByIdModel } = require('../models/accounts')
+const bcrypt = require('bcrypt')
 
 module.exports = {
   getAllAccount: async (req, res) => {
@@ -29,17 +30,34 @@ module.exports = {
       statusErrorServer(res, error)
     }
   },
-  createAccount: async (req, res) => {
+  registrationAccount: async (req, res) => {
+    const { accountName, accountEmail, accountPhoneNumber, accountPassword, accountLevel } = req.body
+    // const salt = bcrypt.genSaltSync(10)
+    // const encryptPassword = bcrypt.hashSync(accountPassword, salt)
+    const setData = {
+      ac_name: accountName,
+      ac_email: accountEmail,
+      ac_phone_number: accountPhoneNumber,
+      ac_password: accountPassword,
+      ac_level: accountLevel,
+      ac_created_at: new Date()
+    }
     try {
-      // const { accountName, accountEmail, accountPhoneNumber, accountPassword, accountLevel } = req.body
-      const result = await createAccountModel(req.body)
-      if (result.affectedRows) {
-        statusPost(res, result)
+      // action check email
+      const dataUser = await getAccountEmailModel(accountEmail)
+      if (dataUser.length >= 1) {
+        statusCheckEmail(res)
       } else {
-        statusFailedAddData(res, result)
+        const resultRegist = await registrationAccountModel(req.body)
+        if (resultRegist.affectedRows) {
+          statusRegistration(res, setData)
+        } else {
+          statusFailedAddData(res)
+        }
       }
     } catch (error) {
       statusErrorServer(res, error)
+      console.log(error)
     }
   },
   updateAllAccountById: async (req, res) => {

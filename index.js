@@ -14,7 +14,7 @@ const hireRouter = require('./src/routers/hire')
 const engineerRouter = require('./src/routers/engineers')
 const companyRouter = require('./src/routers/companies')
 
-// import morgan
+// import morgan dan CORS
 const morgan = require('morgan')
 const cors = require('cors')
 
@@ -35,13 +35,14 @@ app.use(morgan('combined'))
 app.use(cors())
 
 // Config CORS
-// app.use((req, res, next) => {
-//   res.header('Access-Control-Allow-Origin', '*')
-//   res.header(
-//     'Access-Control-Allow-Headers',
-
-//   )
-// })
+app.use((req, res, next) => {
+  res.header('Access-Control-Allow-Origin', '*')
+  res.header(
+    'Access-Control-Allow-Headers',
+    'Origin, X-Requested-with, Content-Type, Accept, Authorization'
+  )
+  next()
+})
 
 app.get('/', (req, res) => {
   res.send('Backend by Android2!')
