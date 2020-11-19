@@ -102,7 +102,7 @@ module.exports = {
         en_job_type: enJobType,
         en_location: enLocation,
         en_description: enDesc,
-        en_profile_pict: req.file === undefined ? '' : req.file.filename
+        en_profile_pict: req.files === undefined ? '' : req.files.enProfilePict[0].path
       }
 
       if (resultSelect.length) {

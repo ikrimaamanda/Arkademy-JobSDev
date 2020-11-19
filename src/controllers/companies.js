@@ -1,5 +1,5 @@
 // const db = require('../helpers/db')
-const { statusRead, statusNotFound, statusErrorServer, statusReadCompanyById, statusPost, statusFailedAddData, statusUpdateData, statusFailedUpdate, statusMustFillAllFields, statusDeleteById, statusFailedDeleteById } = require('../helpers/statusCRUD')
+const { statusRead, statusNotFound, statusErrorServer, statusReadCompanyById, statusPost, statusFailedAddData, statusUpdateData, statusFailedUpdate } = require('../helpers/statusCRUD')
 const { getAllCompanyModel, createCompanyModel, getCompanyByIdModel, updateAllCompanyByIdModel } = require('../models/companies')
 
 module.exports = {
@@ -49,9 +49,19 @@ module.exports = {
     try {
       const { companyId } = req.params
       const resultSelect = await getCompanyByIdModel(companyId)
+      const { cnFields, cnCity, cnDesc, cnInstagram, cnLinkedin } = req.body
+
+      const setData = {
+        cn_fields: cnFields,
+        cn_city: cnCity,
+        cn_description: cnDesc,
+        cn_instagram: cnInstagram,
+        cn_linkedin: cnLinkedin,
+        cn_profile_pict: req.files === undefined ? '' : req.files.cnProfilePict[0].path
+      }
 
       if (resultSelect.length) {
-        const resultUpdate = await updateAllCompanyByIdModel(companyId, req.body)
+        const resultUpdate = await updateAllCompanyByIdModel(companyId, setData)
         if (resultUpdate.affectedRows) {
           statusUpdateData(res, resultUpdate)
         } else {
