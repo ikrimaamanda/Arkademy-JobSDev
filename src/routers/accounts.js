@@ -6,13 +6,13 @@ const { getAllAccount, registrationAccount, loginAccount, getAccountById, update
 const router = Router()
 const { authorizationEngineerAndRecruiter } = require('../middleware/authentication')
 
-router.get('/', authorizationEngineerAndRecruiter, getAllAccount)
+router.get('/', getAllAccount)
 router.get('/:accountId', getAccountById)
 
 router.post('/registration', registrationAccount)
 router.post('/login', loginAccount)
 
-router.put('/:accountId', updateAllAccountById)
+router.put('/:accountId', authorizationEngineerAndRecruiter, updateAllAccountById)
 // router.delete('/:accountId', deleteProjectById)
 
 // patch masih error bagian edit no hp

@@ -59,6 +59,7 @@ module.exports = {
       }
     } catch (error) {
       statusErrorServer(res, error)
+      console.log(error)
     }
   },
   createHire: async (req, res) => {

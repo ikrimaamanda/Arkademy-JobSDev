@@ -73,7 +73,7 @@ module.exports = {
       const { portfolioId } = req.params
       const resultSelect = await getPortfolioByIdModel(portfolioId)
 
-      const { prAppName, prDesc, prLinkPub, prLinkRepo, prWorkplace, prType, enId } = req.body
+      const { prAppName, prDesc, prLinkPub, prLinkRepo, prWorkplace, prType } = req.body
       const setData = {
         pr_app_name: prAppName,
         pr_description: prDesc,
@@ -81,8 +81,7 @@ module.exports = {
         pr_link_repo: prLinkRepo,
         pr_workplace: prWorkplace,
         pr_type: prType,
-        pr_image: req.files === undefined ? '' : req.files.portfolioImage[0].path,
-        en_id: enId
+        pr_image: req.files === undefined ? '' : req.files.portfolioImage[0].path
       }
 
       if (resultSelect.length) {

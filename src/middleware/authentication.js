@@ -15,7 +15,6 @@ module.exports = {
             message: error.message
           })
         } else {
-          console.log(result)
           if (result.ac_level === 1) {
             next()
           } else {
@@ -38,7 +37,6 @@ module.exports = {
             message: error.message
           })
         } else {
-          console.log(result)
           if (result.ac_level === 0) {
             next()
           } else {
@@ -61,7 +59,6 @@ module.exports = {
             message: error.message
           })
         } else {
-          console.log(result)
           if (result.ac_level === 0 || result.ac_level === 1) {
             next()
           } else {

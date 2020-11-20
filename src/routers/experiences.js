@@ -5,17 +5,17 @@ const { getAllExperience, createExperience, getExperienceById, getExperienceByEn
 
 const router = Router()
 
-const { authorizationEngineerAndRecruiter } = require('../middleware/authentication')
+const { authorizationEngineerAndRecruiter, authorizationEngineer } = require('../middleware/authentication')
 
 router.get('/', getAllExperience)
 router.get('/:experienceId', getExperienceById)
 router.get('/getExperienceByEnId/:enId', authorizationEngineerAndRecruiter, getExperienceByEnId)
 
-router.post('/', createExperience)
+router.post('/', authorizationEngineer, createExperience)
 
-router.put('/:experienceId', updateAllExperienceById)
+router.put('/:experienceId', authorizationEngineer, updateAllExperienceById)
 // router.patch('/:experienceId', updateParsialOrAllPortfolioById)
 
-router.delete('/:experienceId', deleteExperienceById)
+router.delete('/:experienceId', authorizationEngineer, deleteExperienceById)
 
 module.exports = router

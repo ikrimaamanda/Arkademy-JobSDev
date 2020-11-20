@@ -232,7 +232,6 @@ module.exports = {
     })
   },
 
-
   // status failed to create data
   statusFailedAddData: (res, result) => {
     res.status(400).send({

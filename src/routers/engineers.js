@@ -4,17 +4,18 @@ const { Router } = require('express')
 const { createEngineer, getCompleteEngineerById, getEngineerById, updateAllEngineerById, getAllEngineer, getFilterEngineer } = require('../controllers/engineers')
 
 const router = Router()
+const { authorizationEngineer, authorizationRecruiter } = require('../middleware/authentication')
 
 const uploadImage = require('../middleware/multer')
 
-router.get('/', getAllEngineer)
-router.get('/filter/', getFilterEngineer)
+router.get('/', authorizationRecruiter, getAllEngineer)
+router.get('/filter/', authorizationRecruiter, getFilterEngineer)
 router.get('/:enId', getEngineerById)
 router.get('/completeEngineer/:enId', getCompleteEngineerById)
 
 router.post('/', createEngineer)
 
-router.put('/:engineerId', uploadImage, updateAllEngineerById)
+router.put('/:engineerId', authorizationEngineer, uploadImage, updateAllEngineerById)
 // router.patch('/:engineerId', updateParsialOrAllEngineerById)
 
 module.exports = router

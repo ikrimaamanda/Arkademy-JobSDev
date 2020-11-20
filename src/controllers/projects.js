@@ -71,13 +71,12 @@ module.exports = {
       const { projectId } = req.params
       const resultSelect = await getProjectByIdModel(projectId)
 
-      const { projectName, projectDesc, projectDeadline, cnId } = req.body
+      const { projectName, projectDesc, projectDeadline } = req.body
       const setData = {
         pj_project_name: projectName,
         pj_description: projectDesc,
         pj_deadline: projectDeadline,
-        pj_image: req.files === undefined ? '' : req.files.projectImage[0].path,
-        cn_id: cnId
+        pj_image: req.files === undefined ? '' : req.files.projectImage[0].path
       }
 
       if (resultSelect.length) {
