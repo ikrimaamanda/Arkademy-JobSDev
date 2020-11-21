@@ -2,6 +2,7 @@ const db = require('../helpers/db')
 
 const { createEngineerModel } = require('../models/engineers')
 const { createCompanyModel } = require('../models/companies')
+const { createAdminModel } = require('../models/admin')
 
 module.exports = {
   getAllAccountModel: () => {
@@ -63,6 +64,8 @@ module.exports = {
           delete newResult.cn_position
           if (parseInt(setData.ac_level) === 0) {
             await createEngineerModel(result.insertId)
+          } else if (parseInt(setData.ac_level) === 2) {
+            await createAdminModel(result.insertId)
           } else {
             await createCompanyModel({
               ac_id: result.insertId,

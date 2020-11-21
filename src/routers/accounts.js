@@ -4,15 +4,15 @@ const { Router } = require('express')
 const { getAllAccount, registrationAccount, loginAccount, getAccountById, updateAllAccountById } = require('../controllers/accounts')
 
 const router = Router()
-const { authorizationEngineerAndRecruiter } = require('../middleware/authentication')
+const { authorizationToAllUser, authorizationAdmin } = require('../middleware/authentication')
 
-router.get('/', getAllAccount)
-router.get('/:accountId', getAccountById)
+router.get('/', authorizationAdmin, getAllAccount)
+router.get('/:accountId', authorizationToAllUser, getAccountById)
 
 router.post('/registration', registrationAccount)
 router.post('/login', loginAccount)
 
-router.put('/:accountId', authorizationEngineerAndRecruiter, updateAllAccountById)
+router.put('/:accountId', authorizationToAllUser, updateAllAccountById)
 // router.delete('/:accountId', deleteProjectById)
 
 // patch masih error bagian edit no hp

@@ -6,10 +6,10 @@ const { getAllPortfolio, createPortfolio, getPortfolioByEnId, deletePortfolioByI
 const router = Router()
 const uploadImage = require('../middleware/multer')
 
-const { authorizationEngineerAndRecruiter, authorizationEngineer } = require('../middleware/authentication')
+const { authorizationToAllUser, authorizationEngineer, authorizationAdmin } = require('../middleware/authentication')
 
-router.get('/', getAllPortfolio)
-router.get('/getPortfolioByEnId/:enId', authorizationEngineerAndRecruiter, getPortfolioByEnId)
+router.get('/', authorizationAdmin, getAllPortfolio)
+router.get('/getPortfolioByEnId/:enId', authorizationToAllUser, getPortfolioByEnId)
 
 router.post('/', authorizationEngineer, uploadImage, createPortfolio)
 

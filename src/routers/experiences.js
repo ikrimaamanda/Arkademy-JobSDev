@@ -5,10 +5,10 @@ const { getAllExperience, createExperience, getExperienceByEnId, updateAllExperi
 
 const router = Router()
 
-const { authorizationEngineerAndRecruiter, authorizationEngineer } = require('../middleware/authentication')
+const { authorizationToAllUser, authorizationEngineer, authorizationAdmin } = require('../middleware/authentication')
 
-router.get('/', getAllExperience)
-router.get('/getExperienceByEnId/:enId', authorizationEngineerAndRecruiter, getExperienceByEnId)
+router.get('/', authorizationAdmin, getAllExperience)
+router.get('/getExperienceByEnId/:enId', authorizationToAllUser, getExperienceByEnId)
 
 router.post('/', authorizationEngineer, createExperience)
 

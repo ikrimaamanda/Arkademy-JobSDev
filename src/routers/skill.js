@@ -5,10 +5,10 @@ const { getAllSkill, createSkill, updateAllSkillById, deleteSkillById, getSkillB
 
 const router = Router()
 
-const { authorizationEngineerAndRecruiter, authorizationEngineer } = require('../middleware/authentication')
+const { authorizationToAllUser, authorizationEngineer, authorizationAdmin } = require('../middleware/authentication')
 
-router.get('/', getAllSkill)
-router.get('/getSkillByEnId/:enId', authorizationEngineerAndRecruiter, getSkillByEnId)
+router.get('/', authorizationAdmin, getAllSkill)
+router.get('/getSkillByEnId/:enId', authorizationToAllUser, getSkillByEnId)
 
 router.post('/', authorizationEngineer, createSkill)
 

@@ -1,13 +1,13 @@
 const { Router } = require('express')
 
 // import controller file
-const { getAllProject, createProject, getProjectById, getProjectByCnId, updateAllProjectById, deleteProjectById } = require('../controllers/projects')
+const { getAllProject, createProject, getProjectByCnId, updateAllProjectById, deleteProjectById } = require('../controllers/projects')
 
 const router = Router()
-const { authorizationRecruiter } = require('../middleware/authentication')
+const { authorizationRecruiter, authorizationAdmin } = require('../middleware/authentication')
 const uploadImage = require('../middleware/multer')
 
-router.get('/', getAllProject)
+router.get('/', authorizationAdmin, getAllProject)
 router.get('/getProjectByCnId/:cnId', authorizationRecruiter, getProjectByCnId)
 
 router.post('/', authorizationRecruiter, uploadImage, createProject)

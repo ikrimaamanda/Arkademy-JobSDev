@@ -4,12 +4,12 @@ const { Router } = require('express')
 const { getCompanyById, updateAllCompanyById, getAllCompany } = require('../controllers/companies')
 
 const router = Router()
-const { authorizationRecruiter } = require('../middleware/authentication')
+const { authorizationRecruiter, authorizationAdmin } = require('../middleware/authentication')
 
 const uploadImage = require('../middleware/multer')
 
-router.get('/', getAllCompany)
-router.get('/:companyId', getCompanyById)
+router.get('/', authorizationAdmin, getAllCompany)
+router.get('/:companyId', authorizationRecruiter, getCompanyById)
 
 router.put('/:companyId', authorizationRecruiter, uploadImage, updateAllCompanyById)
 // router.patch('/:companyId', updateParsialOrAllCompanyById)

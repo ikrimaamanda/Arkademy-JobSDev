@@ -4,9 +4,9 @@ const { Router } = require('express')
 const { getAllHire, createHire, updateAllHireById, getHireByProjectId, getHireByEnId, deleteHireById } = require('../controllers/hire')
 
 const router = Router()
-const { authorizationEngineer, authorizationRecruiter } = require('../middleware/authentication')
+const { authorizationEngineer, authorizationRecruiter, authorizationAdmin } = require('../middleware/authentication')
 
-router.get('/', getAllHire)
+router.get('/', authorizationAdmin, getAllHire)
 router.get('/project/:projectId', authorizationRecruiter, getHireByProjectId)
 router.get('/getHireByEnId/:enId', authorizationEngineer, getHireByEnId)
 

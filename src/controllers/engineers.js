@@ -75,21 +75,6 @@ module.exports = {
       statusErrorServer(res, error)
     }
   },
-  createEngineer: async (req, res) => {
-    try {
-      const { enJobTitle, enJobType, enLocation, enDesc, enProfilePict } = req.body
-      const result = await createEngineerModel(enJobTitle, enJobType, enLocation, enDesc, enProfilePict)
-
-      if (result.affectedRows) {
-        statusPost(res, result)
-      } else {
-        statusFailedAddData(res, result)
-      }
-    } catch (error) {
-      console.log(error)
-      statusErrorServer(res, error)
-    }
-  },
   updateAllEngineerById: async (req, res) => {
     try {
       const { engineerId } = req.params
