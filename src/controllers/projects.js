@@ -76,11 +76,11 @@ module.exports = {
         pj_project_name: projectName,
         pj_description: projectDesc,
         pj_deadline: projectDeadline,
-        pj_image: req.files === undefined ? '' : req.files.projectImage[0].path
+        pj_image: req.files === undefined ? '' : req.files.projectImage[0].fieldname
       }
 
       if (resultSelect.length) {
-        const resultUpdate = await updateAllProjectByIdModel(setData)
+        const resultUpdate = await updateAllProjectByIdModel(setData, projectId)
         if (resultUpdate.affectedRows) {
           statusUpdateData(res, resultUpdate)
         } else {

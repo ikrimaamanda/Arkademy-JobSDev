@@ -82,7 +82,7 @@ module.exports = {
       const resultSelect = await getHireByIdModel(hireId)
 
       if (resultSelect.length) {
-        const resultUpdate = await updateAllHireByIdModel(req.body)
+        const resultUpdate = await updateAllHireByIdModel(req.body, hireId)
         if (resultUpdate.affectedRows) {
           statusUpdateData(res, resultUpdate)
         } else {

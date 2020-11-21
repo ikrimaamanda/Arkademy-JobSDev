@@ -82,9 +82,9 @@ module.exports = {
       })
     })
   },
-  updateAllHireByIdModel: (data) => {
+  updateAllHireByIdModel: (data, hireId) => {
     return new Promise((resolve, reject) => {
-      const query = 'UPDATE hire SET ?'
+      const query = `UPDATE hire SET ? WHERE hr_id = ${hireId}`
 
       db.query(query, data, (err, result, fields) => {
         if (!err) {

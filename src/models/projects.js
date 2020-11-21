@@ -51,9 +51,9 @@ module.exports = {
       })
     })
   },
-  updateAllProjectByIdModel: (data) => {
+  updateAllProjectByIdModel: (data, projectId) => {
     return new Promise((resolve, reject) => {
-      const query = 'UPDATE project SET ?'
+      const query = `UPDATE project SET ? WHERE pj_id = ${projectId}`
 
       db.query(query, data, (err, result, fields) => {
         if (!err) {
