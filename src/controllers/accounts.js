@@ -1,6 +1,6 @@
 // const db = require('../helpers/db')
 const { statusRead, statusNotFound, statusErrorServer, statusReadAccountById, statusUpdateData, statusFailedUpdate, statusCheckEmail, statusAccountNotRegister, statusWrongPassword, statusLogin } = require('../helpers/statusCRUD')
-const { getAllAccountModel, getAccountEmailModel, registrationAccountModel, getAccountByIdModel, updateAllAccountByIdModel, updateParsialOrAllAcccountByIdModel } = require('../models/accounts')
+const { getAllAccountModel, getAccountEmailModel, registrationAccountModel, getAccountByIdModel, updateAllAccountByIdModel } = require('../models/accounts')
 const bcrypt = require('bcrypt')
 const jwt = require('jsonwebtoken')
 require('dotenv')

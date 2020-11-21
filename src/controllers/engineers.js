@@ -1,5 +1,5 @@
 // const db = require('../helpers/db')
-const { statusRead, statusNotFound, statusErrorServer, statusReadEngineerById, statusPost, statusFailedAddData, statusUpdateData, statusFailedUpdate, statusDeleteById, statusFailedDeleteById } = require('../helpers/statusCRUD')
+const { statusRead, statusNotFound, statusErrorServer, statusReadEngineerById, statusPost, statusFailedAddData, statusUpdateData, statusFailedUpdate } = require('../helpers/statusCRUD')
 const { getAllEngineerModel, getSearchEngineerModel, getFilterEngineerModel, createEngineerModel, getEngineerByIdModel, getCompleteEngineerByIdModel, updateAllEngineerByIdModel } = require('../models/engineers')
 
 const isEmpty = require('lodash.isempty')

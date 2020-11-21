@@ -1,5 +1,5 @@
 // const db = require('../helpers/db')
-const { statusRead, statusNotFound, statusErrorServer, statusReadHireById, statusPost, statusFailedAddData, statusUpdateData, statusFailedUpdate, statusReadHireByProjectId, statusMustFillAllFields, statusDeleteById, statusFailedDeleteById, statusReadHireByEnId } = require('../helpers/statusCRUD')
+const { statusRead, statusNotFound, statusErrorServer, statusPost, statusFailedAddData, statusUpdateData, statusFailedUpdate, statusReadHireByProjectId, statusDeleteById, statusFailedDeleteById, statusReadHireByEnId } = require('../helpers/statusCRUD')
 const { getAllHireModel, createHireModel, getHireByIdModel, updateAllHireByIdModel, getHireByProjectIdModel, getHireByEnIdModel, deleteHireByIdModel } = require('../models/hire')
 
 module.exports = {
