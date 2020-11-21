@@ -16,20 +16,6 @@ module.exports = {
       statusErrorServer(res, error)
     }
   },
-  getPortfolioById: async (req, res) => {
-    try {
-      const { portfolioId } = req.params
-
-      const result = await getPortfolioByIdModel(portfolioId)
-      if (result.length) {
-        statusReadPortfolioById(res, result, portfolioId)
-      } else {
-        statusNotFound(res, result)
-      }
-    } catch (error) {
-      statusErrorServer(res, error)
-    }
-  },
   getPortfolioByEnId: async (req, res) => {
     try {
       const { enId } = req.params

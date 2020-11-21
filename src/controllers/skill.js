@@ -16,19 +16,6 @@ module.exports = {
       statusErrorServer(res, error)
     }
   },
-  getSkillById: async (req, res) => {
-    try {
-      const { skillId } = req.params
-      const result = await getSkillByIdModel(skillId)
-      if (result.length) {
-        statusReadSkillById(res, result, skillId)
-      } else {
-        statusNotFound(res, result)
-      }
-    } catch (error) {
-      statusErrorServer(res, error)
-    }
-  },
   getSkillByEnId: async (req, res) => {
     try {
       const { enId } = req.params

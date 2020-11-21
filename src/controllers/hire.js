@@ -16,21 +16,6 @@ module.exports = {
       statusErrorServer(res, error)
     }
   },
-  getHireById: async (req, res) => {
-    try {
-      const { hireId } = req.params
-
-      const result = await getHireByIdModel(hireId)
-      if (result.length) {
-        statusReadHireById(res, result, hireId)
-      } else {
-        statusNotFound(res, result)
-      }
-    } catch (error) {
-      console.log(error)
-      statusErrorServer(res, error)
-    }
-  },
   getHireByProjectId: async (req, res) => {
     try {
       const { projectId } = req.params

@@ -8,7 +8,6 @@ const { authorizationRecruiter } = require('../middleware/authentication')
 const uploadImage = require('../middleware/multer')
 
 router.get('/', getAllProject)
-router.get('/:projectId', getProjectById)
 router.get('/getProjectByCnId/:cnId', authorizationRecruiter, getProjectByCnId)
 
 router.post('/', authorizationRecruiter, uploadImage, createProject)

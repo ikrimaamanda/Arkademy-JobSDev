@@ -16,20 +16,6 @@ module.exports = {
       statusErrorServer(res, error)
     }
   },
-  getExperienceById: async (req, res) => {
-    try {
-      const { experienceId } = req.params
-
-      const result = await getExperienceByIdModel(experienceId)
-      if (result.length) {
-        statusReadExperienceById(res, result, experienceId)
-      } else {
-        statusNotFound(res, result)
-      }
-    } catch (error) {
-      statusErrorServer(res, error)
-    }
-  },
   getExperienceByEnId: async (req, res) => {
     try {
       const { enId } = req.params

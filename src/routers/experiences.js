@@ -1,14 +1,13 @@
 const { Router } = require('express')
 
 // import controller file
-const { getAllExperience, createExperience, getExperienceById, getExperienceByEnId, updateAllExperienceById, deleteExperienceById } = require('../controllers/experiences')
+const { getAllExperience, createExperience, getExperienceByEnId, updateAllExperienceById, deleteExperienceById } = require('../controllers/experiences')
 
 const router = Router()
 
 const { authorizationEngineerAndRecruiter, authorizationEngineer } = require('../middleware/authentication')
 
 router.get('/', getAllExperience)
-router.get('/:experienceId', getExperienceById)
 router.get('/getExperienceByEnId/:enId', authorizationEngineerAndRecruiter, getExperienceByEnId)
 
 router.post('/', authorizationEngineer, createExperience)

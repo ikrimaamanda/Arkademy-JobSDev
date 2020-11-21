@@ -115,44 +115,5 @@ module.exports = {
     } catch (error) {
       statusErrorServer(res, error)
     }
-  },
-  updateParsialOrAllAcccountById: async (req, res) => {
-    try {
-      const { accountId } = req.params
-      const { ac_name = '', ac_phone_number = '', ac_password = '' } = req.body
-      const resultSelect = await getAccountByIdModel(accountId)
-
-      if (ac_name.trim() || ac_phone_number.trim() || ac_password.trim()) {
-        if (resultSelect.length) {
-          const dataColumn = Object.entries(req.body).map(item => {
-            return parseInt(item[1]) > 0 ? `${item[0] = item[1]}`
-              : `${item[0]} = '${item[1]}'`
-          })
-          const resultUpdate = await updateParsialOrAllAcccountByIdModel(dataColumn, accountId)
-          if (resultUpdate.affectedRows) {
-            res.status(200).send({
-              success: true,
-              message: 'Successfully updated account'
-            })
-          } else {
-            res.status(400).send({
-              success: false,
-              message: 'Update account failed'
-            })
-          }
-        }
-      } else {
-        res.status(400).send({
-          success: false,
-          message: 'Some fields must be filled!'
-        })
-      }
-    } catch (error) {
-      console.log(error)
-      res.status(500).send({
-        success: false,
-        message: 'Internal Server Error!'
-      })
-    }
   }
 }
