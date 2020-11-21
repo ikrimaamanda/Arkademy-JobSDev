@@ -1,6 +1,6 @@
 // const db = require('../helpers/db')
-const { statusRead, statusNotFound, statusErrorServer, statusReadCompanyById, statusPost, statusFailedAddData, statusUpdateData, statusFailedUpdate } = require('../helpers/statusCRUD')
-const { getAllCompanyModel, createCompanyModel, getCompanyByIdModel, updateAllCompanyByIdModel } = require('../models/companies')
+const { statusRead, statusNotFound, statusErrorServer, statusReadCompanyById, statusUpdateData, statusFailedUpdate } = require('../helpers/statusCRUD')
+const { getAllCompanyModel, getCompanyByIdModel, updateAllCompanyByIdModel } = require('../models/companies')
 
 module.exports = {
   getAllCompany: async (req, res) => {
@@ -31,33 +31,15 @@ module.exports = {
       statusErrorServer(res, error)
     }
   },
-  createCompany: async (req, res) => {
-    try {
-      const result = await createCompanyModel(req.body)
-
-      if (result.affectedRows) {
-        statusPost(res, result)
-      } else {
-        statusFailedAddData(res, result)
-      }
-    } catch (error) {
-      console.log(error)
-      statusErrorServer(res, error)
-    }
-  },
   updateAllCompanyById: async (req, res) => {
     try {
       const { companyId } = req.params
       const resultSelect = await getCompanyByIdModel(companyId)
-      const { cnFields, cnCity, cnDesc, cnInstagram, cnLinkedin } = req.body
+      const data = req.body
 
       const setData = {
-        cn_fields: cnFields,
-        cn_city: cnCity,
-        cn_description: cnDesc,
-        cn_instagram: cnInstagram,
-        cn_linkedin: cnLinkedin,
-        cn_profile_pict: req.files === undefined ? '' : req.files.cnProfilePict[0].path
+        ...data,
+        cn_profile_pict: req.files === undefined ? '' : req.files.cnProfilePict[0].filename
       }
 
       if (resultSelect.length) {

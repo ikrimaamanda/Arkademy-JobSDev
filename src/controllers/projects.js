@@ -51,7 +51,7 @@ module.exports = {
         pj_project_name: projectName,
         pj_description: projectDesc,
         pj_deadline: projectDeadline,
-        pj_image: req.files === undefined ? '' : req.files.projectImage[0].path,
+        pj_image: req.files === undefined ? '' : req.files.projectImage[0].filename,
         cn_id: cnId
       }
       const result = await createProjectModel(setData)
@@ -76,7 +76,7 @@ module.exports = {
         pj_project_name: projectName,
         pj_description: projectDesc,
         pj_deadline: projectDeadline,
-        pj_image: req.files === undefined ? '' : req.files.projectImage[0].fieldname
+        pj_image: req.files === undefined ? '' : req.files.projectImage[0].filename
       }
 
       if (resultSelect.length) {

@@ -1,5 +1,5 @@
 // const db = require('../helpers/db')
-const { statusRead, statusNotFound, statusErrorServer, statusReadPortfolioById, statusPost, statusFailedAddData, statusUpdateData, statusFailedUpdate, statusMustFillAllFields, statusDeleteById, statusFailedDeleteById, statusReadPortfolioByEnId } = require('../helpers/statusCRUD')
+const { statusRead, statusNotFound, statusErrorServer, statusReadPortfolioById, statusPost, statusFailedAddData, statusUpdateData, statusFailedUpdate, statusDeleteById, statusFailedDeleteById, statusReadPortfolioByEnId } = require('../helpers/statusCRUD')
 const { getAllPortfolioModel, createPortfolioModel, getPortfolioByIdModel, getPortfolioByEnIdModel, deletePortfolioByIdModel, updateAllPortfolioByIdModel } = require('../models/portfolios')
 
 module.exports = {
@@ -54,7 +54,7 @@ module.exports = {
         pr_link_repo: prLinkRepo,
         pr_workplace: prWorkplace,
         pr_type: prType,
-        pr_image: req.files === undefined ? '' : req.files.portfolioImage[0].path,
+        pr_image: req.files === undefined ? '' : req.files.portfolioImage[0].filename,
         en_id: enId
       }
 
@@ -81,7 +81,7 @@ module.exports = {
         pr_link_repo: prLinkRepo,
         pr_workplace: prWorkplace,
         pr_type: prType,
-        pr_image: req.files === undefined ? '' : req.files.portfolioImage[0].path
+        pr_image: req.files === undefined ? '' : req.files.portfolioImage[0].filename
       }
 
       if (resultSelect.length) {

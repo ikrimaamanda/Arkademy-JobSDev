@@ -1,24 +1,14 @@
 const multer = require('multer')
-const path = require('path')
+// const path = require('path')
 
 const storage = multer.diskStorage({
   destination: (req, file, callback) => {
     callback(null, './uploads/')
   },
   filename: (req, file, callback) => {
-    if (file.fieldname === 'enProfilePict') {
-      callback(null, file.fieldname + '-' + Date.now() + path.extname(file.originalname))
-    } else if (file.fieldname === 'cnProfilePict') {
-      callback(null, file.fieldname + '-' + Date.now() + path.extname(file.originalname))
-    } else if (file.fieldname === 'portfolioImage') {
-      callback(null, file.fieldname + '-' + Date.now() + path.extname(file.originalname))
-    } else if (file.fieldname === 'projectImage') {
-      callback(null, file.fieldname + '-' + Date.now() + path.extname(file.originalname))
-    }
-
-    // const extension = file.originalname.split('.').pop()
-    // const fileName = file.fieldname + '-' + Date.now() + '.' + extension
-    // callback(null, fileName)
+    const extension = file.originalname.split('.').pop()
+    const fileName = file.fieldname + '-' + Date.now() + '.' + extension
+    callback(null, fileName)
   }
 })
 

@@ -10,7 +10,7 @@ module.exports = {
       token = token.split(' ')[1]
       jwt.verify(token, process.env.JWT_KEY, (error, result) => {
         if ((error && error.name === 'JsonWebTokenError') || (error && error.name === 'TokenExpiredError')) {
-          response.status(403).send({
+          res.status(403).send({
             success: false,
             message: error.message
           })
@@ -32,7 +32,7 @@ module.exports = {
       token = token.split(' ')[1]
       jwt.verify(token, process.env.JWT_KEY, (error, result) => {
         if ((error && error.name === 'JsonWebTokenError') || (error && error.name === 'TokenExpiredError')) {
-          response.status(403).send({
+          res.status(403).send({
             success: false,
             message: error.message
           })
@@ -54,7 +54,7 @@ module.exports = {
       token = token.split(' ')[1]
       jwt.verify(token, process.env.JWT_KEY, (error, result) => {
         if ((error && error.name === 'JsonWebTokenError') || (error && error.name === 'TokenExpiredError')) {
-          response.status(403).send({
+          res.status(403).send({
             success: false,
             message: error.message
           })

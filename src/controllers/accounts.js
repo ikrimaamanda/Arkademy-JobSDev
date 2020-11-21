@@ -94,7 +94,7 @@ module.exports = {
     try {
       const { accountId } = req.params
       const resultSelect = await getAccountByIdModel(accountId)
-      const {accountName, accountPhoneNumber, accountPassword} = req.body
+      const { accountName, accountPhoneNumber, accountPassword } = req.body
       const salt = bcrypt.genSaltSync(10)
       const encryptPassword = bcrypt.hashSync(accountPassword, salt)
 
