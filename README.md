@@ -14,6 +14,7 @@ You're sections headers will be used to reference location of destination.
 - [Requirements](#Requirements)
 - [How to run the app](#how-to-run-the-app)
 - [Set up .env file](#set-up-env-file)
+- [End point](#End-point)
 - [Link Postman](#link-postman)
 
 ---
