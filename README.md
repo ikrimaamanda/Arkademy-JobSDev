@@ -46,7 +46,7 @@ JobSDev is an application that helps connect software developers with recruiters
 4. Turn on Web Server and MySQL can using Third-party tool like xampp, etc.
 5. Create a database with the name #nama_database, and Import file sql to **phpmyadmin**
 6. Open Postman desktop application or Chrome web app extension that has installed before
-7. Choose HTTP Method and enter request url.(ex. localhost:3000/)
+7. Choose HTTP Method and enter request url.(ex. localhost:4000/)
 8. You can see all the end point [here](#end-point)
 
 ---
@@ -64,6 +64,21 @@ DB_DATABASE= YOUR_DATABASE
 PORT=YOUR_PORT
 
 JWT_KEY =YOUR_JWT_KEY
+```
+
+---
+
+## End point
+
+```
+1. accounts
+2. portfolios
+3. skill
+4. experiences
+5. projects
+6. hire
+7. engineers
+8. companies
 ```
 
 ---
