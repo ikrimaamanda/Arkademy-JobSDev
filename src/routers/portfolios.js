@@ -14,7 +14,6 @@ router.get('/getPortfolioByEnId/:enId', authorizationToAllUser, getPortfolioByEn
 router.post('/', authorizationEngineer, uploadImage, createPortfolio)
 
 router.put('/:portfolioId', authorizationEngineer, uploadImage, updateAllPortfolioById)
-// router.patch('/:portfolioId', updateParsialOrAllPortfolioById)
 
 router.delete('/:portfolioId', authorizationEngineer, deletePortfolioById)
 

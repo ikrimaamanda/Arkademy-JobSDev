@@ -31,12 +31,20 @@ module.exports = {
   },
   createSkill: async (req, res) => {
     try {
-      // const { skillName } = req.body
-      const result = await createSkillModel(req.body)
-      if (result.affectedRows) {
-        statusPost(res, result)
+      const { skillName, enId } = req.body
+      const data = {
+        sk_skill_name: skillName,
+        en_id: enId
+      }
+      if (skillName.trim() && enId.trim()) {
+        const result = await createSkillModel(data)
+        if (result.affectedRows) {
+          statusPost(res, result)
+        } else {
+          statusFailedAddData(res, result)
+        }
       } else {
-        statusFailedAddData(res, result)
+        statusMustFillAllFields(res)
       }
     } catch (error) {
       console.log(error)

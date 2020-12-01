@@ -1,6 +1,6 @@
 // const db = require('../helpers/db')
-const { statusRead, statusNotFound, statusErrorServer, statusReadEngineerById, statusPost, statusFailedAddData, statusUpdateData, statusFailedUpdate } = require('../helpers/statusCRUD')
-const { getAllEngineerModel, getSearchEngineerModel, getFilterEngineerModel, createEngineerModel, getEngineerByIdModel, getCompleteEngineerByIdModel, updateAllEngineerByIdModel } = require('../models/engineers')
+const { statusNotFound, statusErrorServer, statusReadEngineerById, statusUpdateData, statusFailedUpdate, statusReadCompleteEngineerById, statusReadAllEngineer } = require('../helpers/statusCRUD')
+const { getAllEngineerModel, getSearchEngineerModel, getFilterEngineerModel, getEngineerByIdModel, getCompleteEngineerByIdModel, updateAllEngineerByIdModel } = require('../models/engineers')
 
 const isEmpty = require('lodash.isempty')
 
@@ -36,7 +36,7 @@ module.exports = {
       }
 
       if (result.length) {
-        statusRead(res, result)
+        statusReadAllEngineer(res, result)
       } else {
         statusNotFound(res, result)
       }
@@ -66,12 +66,11 @@ module.exports = {
 
       const result = await getCompleteEngineerByIdModel(enId)
       if (result.length) {
-        statusReadEngineerById(res, result, enId)
+        statusReadCompleteEngineerById(res, result, enId)
       } else {
         statusNotFound(res, result)
       }
     } catch (error) {
-      console.log(error)
       statusErrorServer(res, error)
     }
   },
@@ -80,14 +79,12 @@ module.exports = {
       const { engineerId } = req.params
       const resultSelect = await getEngineerByIdModel(engineerId)
 
-      const { enJobTitle, enJobType, enLocation, enDesc } = req.body
+      const data = req.body
+      const image = req.file === undefined ? resultSelect[0].en_profile_pict : req.file.filename
 
       const setData = {
-        en_job_title: enJobTitle,
-        en_job_type: enJobType,
-        en_location: enLocation,
-        en_description: enDesc,
-        en_profile_pict: req.files === undefined ? '' : req.files.enProfilePict[0].filename
+        ...data,
+        en_profile_pict: image
       }
 
       if (resultSelect.length) {
@@ -136,7 +133,7 @@ module.exports = {
       }
 
       if (result.length) {
-        statusRead(res, result)
+        statusReadAllEngineer(res, result)
       } else {
         statusNotFound(res, result)
       }

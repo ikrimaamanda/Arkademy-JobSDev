@@ -13,7 +13,6 @@ router.get('/getSkillByEnId/:enId', authorizationToAllUser, getSkillByEnId)
 router.post('/', authorizationEngineer, createSkill)
 
 router.put('/:skillId', authorizationEngineer, updateAllSkillById)
-// router.patch('/:portfolioId', updateParsialOrAllPortfolioById)
 
 router.delete('/:skillId', authorizationEngineer, deleteSkillById)
 

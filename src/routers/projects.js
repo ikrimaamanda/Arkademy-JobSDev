@@ -13,7 +13,6 @@ router.get('/getProjectByCnId/:cnId', authorizationRecruiter, getProjectByCnId)
 router.post('/', authorizationRecruiter, uploadImage, createProject)
 
 router.put('/:projectId', authorizationRecruiter, uploadImage, updateAllProjectById)
-// router.patch('/:experienceId', updateParsialOrAllPortfolioById)
 
 router.delete('/:projectId', authorizationRecruiter, deleteProjectById)
 

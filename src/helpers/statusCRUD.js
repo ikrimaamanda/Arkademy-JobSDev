@@ -138,6 +138,23 @@ module.exports = {
     })
   },
 
+  // status read all engineer
+  statusReadAllEngineer: (res, result) => {
+    res.status(200).send({
+      success: true,
+      message: 'List All Engineer',
+      data: result
+    })
+  },
+
+  statusReadCompleteEngineerById: (res, result, enId) => {
+    res.status(200).send({
+      success: true,
+      message: `Engineer with id ${enId}`,
+      data: result[0]
+    })
+  },
+
   // status success to get company by id
   statusReadCompanyById: (res, result, companyId) => {
     res.status(200).send({
@@ -258,7 +275,7 @@ module.exports = {
   },
 
   // status update must filled all fields
-  statusMustFillAllFields: (res, result) => {
+  statusMustFillAllFields: (res) => {
     res.status(400).send({
       success: false,
       message: 'All fields must be filled!'

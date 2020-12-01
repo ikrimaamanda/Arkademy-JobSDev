@@ -1,5 +1,5 @@
 // const db = require('../helpers/db')
-const { statusRead, statusNotFound, statusErrorServer, statusPost, statusFailedAddData, statusUpdateData, statusFailedUpdate, statusDeleteById, statusFailedDeleteById, statusReadProjectByCnId } = require('../helpers/statusCRUD')
+const { statusRead, statusNotFound, statusErrorServer, statusPost, statusFailedAddData, statusUpdateData, statusFailedUpdate, statusDeleteById, statusFailedDeleteById, statusReadProjectByCnId, statusMustFillAllFields } = require('../helpers/statusCRUD')
 const { getAllProjectModel, createProjectModel, getProjectByIdModel, getProjectByCnIdModel, deleteProjectByIdModel, updateAllProjectByIdModel } = require('../models/projects')
 
 module.exports = {
@@ -33,19 +33,24 @@ module.exports = {
   createProject: async (req, res) => {
     try {
       const { projectName, projectDesc, projectDeadline, cnId } = req.body
+      const image = req.file === undefined ? '' : req.file.filename
       const setData = {
         pj_project_name: projectName,
         pj_description: projectDesc,
         pj_deadline: projectDeadline,
-        pj_image: req.files === undefined ? '' : req.files.projectImage[0].filename,
+        pj_image: image,
         cn_id: cnId
       }
-      const result = await createProjectModel(setData)
 
-      if (result.affectedRows) {
-        statusPost(res, result)
+      if (projectName.trim() && projectDesc.trim() && projectDeadline.trim() && image.trim() && cnId.trim()) {
+        const result = await createProjectModel(setData)
+        if (result.affectedRows) {
+          statusPost(res, result)
+        } else {
+          statusFailedAddData(res, result)
+        }
       } else {
-        statusFailedAddData(res, result)
+        statusMustFillAllFields(res)
       }
     } catch (error) {
       console.log(error)
@@ -56,13 +61,12 @@ module.exports = {
     try {
       const { projectId } = req.params
       const resultSelect = await getProjectByIdModel(projectId)
+      const image = req.file === undefined ? resultSelect[0].pj_image : req.file.filename
 
-      const { projectName, projectDesc, projectDeadline } = req.body
+      const data = req.body
       const setData = {
-        pj_project_name: projectName,
-        pj_description: projectDesc,
-        pj_deadline: projectDeadline,
-        pj_image: req.files === undefined ? '' : req.files.projectImage[0].filename
+        ...data,
+        pj_image: image
       }
 
       if (resultSelect.length) {

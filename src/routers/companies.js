@@ -12,6 +12,5 @@ router.get('/', authorizationAdmin, getAllCompany)
 router.get('/:companyId', authorizationRecruiter, getCompanyById)
 
 router.put('/:companyId', authorizationRecruiter, uploadImage, updateAllCompanyById)
-// router.patch('/:companyId', updateParsialOrAllCompanyById)
 
 module.exports = router

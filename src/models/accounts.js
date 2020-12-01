@@ -93,9 +93,10 @@ module.exports = {
       })
     })
   },
-  updateParsialOrAllAcccountByIdModel: (dataColumn, accountId) => {
+  deleteAccountByIdModel: (accountId) => {
     return new Promise((resolve, reject) => {
-      const query = `UPDATE account SET ${dataColumn} WHERE ac_id = ${accountId}`
+      const query = `DELETE FROM account WHERE ac_id = ${accountId}`
+
       db.query(query, (err, result, fields) => {
         if (!err) {
           resolve(result)

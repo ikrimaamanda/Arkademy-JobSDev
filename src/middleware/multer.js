@@ -23,23 +23,7 @@ const fileFilter = (req, file, callback) => {
 
 const limits = { fileSize: 1024 * 1024 * 1 }
 
-const upload = multer({ storage, fileFilter, limits }).fields(
-  [
-    {
-      name: 'enProfilePict',
-      maxCount: 1
-    },
-    {
-      name: 'cnProfilePict', maxCount: 1
-    },
-    {
-      name: 'portfolioImage', maxCount: 1
-    },
-    {
-      name: 'projectImage', maxCount: 1
-    }
-  ]
-)
+const upload = multer({ storage, fileFilter, limits }).single('image')
 
 const uploadFilter = (request, response, next) => {
   upload(request, response, function (err) {

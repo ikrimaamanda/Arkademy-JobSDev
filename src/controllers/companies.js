@@ -36,10 +36,11 @@ module.exports = {
       const { companyId } = req.params
       const resultSelect = await getCompanyByIdModel(companyId)
       const data = req.body
+      const image = req.file === undefined ? resultSelect[0].cn_profile_pict : req.file.filename
 
       const setData = {
         ...data,
-        cn_profile_pict: req.files === undefined ? '' : req.files.cnProfilePict[0].filename
+        cn_profile_pict: image
       }
 
       if (resultSelect.length) {

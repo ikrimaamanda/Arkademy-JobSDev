@@ -13,7 +13,6 @@ router.get('/getHireByEnId/:enId', authorizationEngineer, getHireByEnId)
 router.post('/', authorizationRecruiter, createHire)
 
 router.put('/:hireId', authorizationRecruiter, updateAllHireById)
-// router.patch('/:experienceId', updateParsialOrAllPortfolioById)
 
 router.delete('/:hireId', authorizationRecruiter, deleteHireById)
 

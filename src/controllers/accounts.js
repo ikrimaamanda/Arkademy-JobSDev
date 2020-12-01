@@ -1,6 +1,6 @@
 // const db = require('../helpers/db')
-const { statusRead, statusNotFound, statusErrorServer, statusReadAccountById, statusUpdateData, statusFailedUpdate, statusCheckEmail, statusAccountNotRegister, statusWrongPassword, statusLogin } = require('../helpers/statusCRUD')
-const { getAllAccountModel, getAccountEmailModel, registrationAccountModel, getAccountByIdModel, updateAllAccountByIdModel } = require('../models/accounts')
+const { statusRead, statusNotFound, statusErrorServer, statusReadAccountById, statusUpdateData, statusFailedUpdate, statusCheckEmail, statusMustFillAllFields, statusAccountNotRegister, statusWrongPassword, statusLogin, statusDeleteById, statusFailedDeleteById } = require('../helpers/statusCRUD')
+const { getAllAccountModel, getAccountEmailModel, registrationAccountModel, getAccountByIdModel, updateAllAccountByIdModel, deleteAccountByIdModel } = require('../models/accounts')
 const bcrypt = require('bcrypt')
 const jwt = require('jsonwebtoken')
 require('dotenv')
@@ -48,17 +48,22 @@ module.exports = {
       cn_position: companyPosition
     }
     try {
-      // action check email
       const dataUser = await getAccountEmailModel(accountEmail)
-      if (dataUser.length >= 1) {
-        statusCheckEmail(res)
+
+      if (accountName.trim() && accountEmail.trim() && accountPhoneNumber.trim() && accountPassword.trim() && accountLevel.trim()) {
+        // action check email
+        if (dataUser.length >= 1) {
+          statusCheckEmail(res)
+        } else {
+          const resultRegist = await registrationAccountModel(setData)
+          res.status(200).send({
+            success: true,
+            message: 'Registration Success',
+            data: resultRegist
+          })
+        }
       } else {
-        const resultRegist = await registrationAccountModel(setData)
-        res.status(200).send({
-          success: true,
-          message: 'Registration Success',
-          data: resultRegist
-        })
+        statusMustFillAllFields(res)
       }
     } catch (error) {
       statusErrorServer(res, error)
@@ -69,21 +74,26 @@ module.exports = {
     try {
       const { accountEmail, accountPassword } = req.body
       const dataUser = await getAccountEmailModel(accountEmail)
-      if (dataUser.length >= 1) {
-        const checkPassword = bcrypt.compareSync(accountPassword, dataUser[0].ac_password)
-        if (checkPassword) {
-          const { ac_id, ac_email, ac_level } = dataUser[0]
-          let payload = {
-            ac_id, ac_email, ac_level
+
+      if (accountEmail.trim() && accountPassword.trim()) {
+        if (dataUser.length >= 1) {
+          const checkPassword = bcrypt.compareSync(accountPassword, dataUser[0].ac_password)
+          if (checkPassword) {
+            const { ac_id, ac_email, ac_level } = dataUser[0]
+            let payload = {
+              ac_id, ac_email, ac_level
+            }
+            const token = jwt.sign(payload, process.env.JWT_KEY, { expiresIn: '1H' })
+            payload = { ...payload, token }
+            statusLogin(res, payload)
+          } else {
+            statusWrongPassword(res, checkPassword)
           }
-          const token = jwt.sign(payload, process.env.JWT_KEY, { expiresIn: '1H' })
-          payload = { ...payload, token }
-          statusLogin(res, payload)
         } else {
-          statusWrongPassword(res, checkPassword)
+          statusAccountNotRegister(res)
         }
       } else {
-        statusAccountNotRegister(res)
+        statusMustFillAllFields(res)
       }
     } catch (error) {
       statusErrorServer(res, error)
@@ -111,6 +121,24 @@ module.exports = {
         } else {
           statusFailedUpdate(res, resultUpdate)
         }
+      }
+    } catch (error) {
+      statusErrorServer(res, error)
+    }
+  },
+  deleteAccountById: async (req, res) => {
+    try {
+      const { accountId } = req.params
+      const resultSelect = await getAccountByIdModel(accountId)
+      if (resultSelect.length) {
+        const resultDelete = await deleteAccountByIdModel(accountId)
+        if (resultDelete.affectedRows) {
+          statusDeleteById(res, resultDelete)
+        } else {
+          statusFailedDeleteById(res, resultDelete)
+        }
+      } else {
+        statusNotFound(res, resultSelect)
       }
     } catch (error) {
       statusErrorServer(res, error)

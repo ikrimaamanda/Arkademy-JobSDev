@@ -1,5 +1,5 @@
 // const db = require('../helpers/db')
-const { statusRead, statusNotFound, statusErrorServer, statusPost, statusFailedAddData, statusUpdateData, statusFailedUpdate, statusReadHireByProjectId, statusDeleteById, statusFailedDeleteById, statusReadHireByEnId } = require('../helpers/statusCRUD')
+const { statusRead, statusMustFillAllFields, statusNotFound, statusErrorServer, statusPost, statusFailedAddData, statusUpdateData, statusFailedUpdate, statusReadHireByProjectId, statusDeleteById, statusFailedDeleteById, statusReadHireByEnId } = require('../helpers/statusCRUD')
 const { getAllHireModel, createHireModel, getHireByIdModel, updateAllHireByIdModel, getHireByProjectIdModel, getHireByEnIdModel, deleteHireByIdModel } = require('../models/hire')
 
 module.exports = {
@@ -49,12 +49,24 @@ module.exports = {
   },
   createHire: async (req, res) => {
     try {
-      const result = await createHireModel(req.body)
+      const { hireMessage, hirePrice, projectId, enId } = req.body
 
-      if (result.affectedRows) {
-        statusPost(res, result)
+      const data = {
+        hr_message: hireMessage,
+        hr_price: hirePrice,
+        pj_id: projectId,
+        en_id: enId
+      }
+
+      if (hireMessage.trim() && hirePrice.trim() && projectId.trim() && enId.trim()) {
+        const result = await createHireModel(data)
+        if (result.affectedRows) {
+          statusPost(res, result)
+        } else {
+          statusFailedAddData(res, result)
+        }
       } else {
-        statusFailedAddData(res, result)
+        statusMustFillAllFields(res)
       }
     } catch (error) {
       console.log(error)

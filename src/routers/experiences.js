@@ -13,7 +13,6 @@ router.get('/getExperienceByEnId/:enId', authorizationToAllUser, getExperienceBy
 router.post('/', authorizationEngineer, createExperience)
 
 router.put('/:experienceId', authorizationEngineer, updateAllExperienceById)
-// router.patch('/:experienceId', updateParsialOrAllPortfolioById)
 
 router.delete('/:experienceId', authorizationEngineer, deleteExperienceById)
 

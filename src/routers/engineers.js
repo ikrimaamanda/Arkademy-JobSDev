@@ -9,11 +9,13 @@ const { authorizationEngineer, authorizationRecruiter, authorizationToAllUser } 
 const uploadImage = require('../middleware/multer')
 
 router.get('/', authorizationRecruiter, getAllEngineer)
+
 router.get('/filter/', authorizationRecruiter, getFilterEngineer)
+
 router.get('/:enId', authorizationToAllUser, getEngineerById)
+
 router.get('/completeEngineer/:enId', authorizationToAllUser, getCompleteEngineerById)
 
 router.put('/:engineerId', authorizationEngineer, uploadImage, updateAllEngineerById)
-// router.patch('/:engineerId', updateParsialOrAllEngineerById)
 
 module.exports = router

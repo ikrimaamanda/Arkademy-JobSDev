@@ -51,11 +51,11 @@ module.exports = {
       })
     })
   },
-  updateAllExperienceByIdModel: (exPosition, exCompany, exStartDate, exEndDate, exDesc, expId) => {
+  updateAllExperienceByIdModel: (data, expId) => {
     return new Promise((resolve, reject) => {
-      const query = `UPDATE experience SET ex_position = '${exPosition}', ex_company = '${exCompany}', ex_start_date = '${exStartDate}', ex_end_date = '${exEndDate}', ex_description = '${exDesc}' WHERE ex_id = '${expId}'`
+      const query = `UPDATE experience SET ? WHERE ex_id = '${expId}'`
 
-      db.query(query, (err, result, fields) => {
+      db.query(query, data, (err, result, fields) => {
         if (!err) {
           resolve(result)
         } else {

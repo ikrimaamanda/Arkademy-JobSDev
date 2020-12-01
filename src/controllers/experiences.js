@@ -33,12 +33,25 @@ module.exports = {
   },
   createExperience: async (req, res) => {
     try {
-      const result = await createExperienceModel(req.body)
+      const { exPosition, exCompany, exStartDate, exEndDate, exDesc, enId } = req.body
+      const data = {
+        ex_position: exPosition,
+        ex_company: exCompany,
+        ex_start_date: exStartDate,
+        ex_end_date: exEndDate,
+        ex_description: exDesc,
+        en_id: enId
+      }
+      if (exPosition.trim() && exCompany.trim() && exStartDate.trim() && exEndDate.trim() && exDesc.trim() && enId.trim()) {
+        const result = await createExperienceModel(data)
 
-      if (result.affectedRows) {
-        statusPost(res, result)
+        if (result.affectedRows) {
+          statusPost(res, result)
+        } else {
+          statusFailedAddData(res, result)
+        }
       } else {
-        statusFailedAddData(res, result)
+        statusMustFillAllFields(res)
       }
     } catch (error) {
       console.log(error)
@@ -48,22 +61,18 @@ module.exports = {
   updateAllExperienceById: async (req, res) => {
     try {
       const { experienceId } = req.params
-      const { exPosition, exCompany, exStartDate, exEndDate, exDesc } = req.body
+      const data = req.body
       const resultSelect = await getExperienceByIdModel(experienceId)
 
-      if (exPosition.trim() && exCompany.trim() && exStartDate.trim() && exEndDate.trim() && exDesc.trim()) {
-        if (resultSelect.length) {
-          const resultUpdate = await updateAllExperienceByIdModel(exPosition, exCompany, exStartDate, exEndDate, exDesc, experienceId)
-          if (resultUpdate.affectedRows) {
-            statusUpdateData(res, resultUpdate)
-          } else {
-            statusFailedUpdate(res, resultUpdate)
-          }
+      if (resultSelect.length) {
+        const resultUpdate = await updateAllExperienceByIdModel(data, experienceId)
+        if (resultUpdate.affectedRows) {
+          statusUpdateData(res, resultUpdate)
         } else {
-          statusNotFound(res, resultSelect)
+          statusFailedUpdate(res, resultUpdate)
         }
       } else {
-        statusMustFillAllFields(res, resultSelect)
+        statusNotFound(res, resultSelect)
       }
     } catch (error) {
       statusErrorServer(res, error)

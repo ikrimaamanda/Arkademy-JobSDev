@@ -1,5 +1,5 @@
 // const db = require('../helpers/db')
-const { statusRead, statusNotFound, statusErrorServer, statusPost, statusFailedAddData, statusUpdateData, statusFailedUpdate, statusDeleteById, statusFailedDeleteById, statusReadPortfolioByEnId } = require('../helpers/statusCRUD')
+const { statusRead, statusNotFound, statusErrorServer, statusPost, statusFailedAddData, statusMustFillAllFields, statusUpdateData, statusFailedUpdate, statusDeleteById, statusFailedDeleteById, statusReadPortfolioByEnId } = require('../helpers/statusCRUD')
 const { getAllPortfolioModel, createPortfolioModel, getPortfolioByIdModel, getPortfolioByEnIdModel, deletePortfolioByIdModel, updateAllPortfolioByIdModel } = require('../models/portfolios')
 
 module.exports = {
@@ -33,6 +33,7 @@ module.exports = {
   createPortfolio: async (req, res) => {
     try {
       const { prAppName, prDesc, prLinkPub, prLinkRepo, prWorkplace, prType, enId } = req.body
+      const image = req.file === undefined ? '' : req.file.filename
       const setData = {
         pr_app_name: prAppName,
         pr_description: prDesc,
@@ -40,15 +41,19 @@ module.exports = {
         pr_link_repo: prLinkRepo,
         pr_workplace: prWorkplace,
         pr_type: prType,
-        pr_image: req.files === undefined ? '' : req.files.portfolioImage[0].filename,
+        pr_image: image,
         en_id: enId
       }
 
-      const result = await createPortfolioModel(setData)
-      if (result.affectedRows) {
-        statusPost(res, result)
+      if (prAppName.trim() && prDesc.trim() && prLinkPub.trim() && prLinkRepo.trim() && prWorkplace.trim() && prType.trim() && image.trim() && enId.trim()) {
+        const result = await createPortfolioModel(setData)
+        if (result.affectedRows) {
+          statusPost(res, result)
+        } else {
+          statusFailedAddData(res, result)
+        }
       } else {
-        statusFailedAddData(res, result)
+        statusMustFillAllFields(res)
       }
     } catch (error) {
       statusErrorServer(res, error)
@@ -58,16 +63,12 @@ module.exports = {
     try {
       const { portfolioId } = req.params
       const resultSelect = await getPortfolioByIdModel(portfolioId)
+      const image = req.file === undefined ? resultSelect[0].pr_image : req.file.filename
 
-      const { prAppName, prDesc, prLinkPub, prLinkRepo, prWorkplace, prType } = req.body
+      const data = req.body
       const setData = {
-        pr_app_name: prAppName,
-        pr_description: prDesc,
-        pr_link_pub: prLinkPub,
-        pr_link_repo: prLinkRepo,
-        pr_workplace: prWorkplace,
-        pr_type: prType,
-        pr_image: req.files === undefined ? '' : req.files.portfolioImage[0].filename
+        ...data,
+        pr_image: image
       }
 
       if (resultSelect.length) {
