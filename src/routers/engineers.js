@@ -4,13 +4,13 @@ const { Router } = require('express')
 const { getCompleteEngineerById, getEngineerById, updateAllEngineerById, getAllEngineer, getFilterEngineer } = require('../controllers/engineers')
 
 const router = Router()
-const { authorizationEngineer, authorizationRecruiter, authorizationToAllUser } = require('../middleware/authentication')
+const { authorizationEngineer, authorizationToAllUser } = require('../middleware/authentication')
 
 const uploadImage = require('../middleware/multer')
 
-router.get('/', authorizationRecruiter, getAllEngineer)
+router.get('/', authorizationToAllUser, getAllEngineer)
 
-router.get('/filter/', authorizationRecruiter, getFilterEngineer)
+router.get('/filter/', authorizationToAllUser, getFilterEngineer)
 
 router.get('/:enId', authorizationToAllUser, getEngineerById)
 
