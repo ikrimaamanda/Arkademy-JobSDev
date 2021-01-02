@@ -1,7 +1,7 @@
 const { Router } = require('express')
 
 // import controller file
-const { getCompleteEngineerById, getEngineerById, updateAllEngineerById, getAllEngineer, getFilterEngineer } = require('../controllers/engineers')
+const { getCompleteEngineerById, getEngineerByAcId, updateAllEngineerById, getAllEngineer, getFilterEngineer } = require('../controllers/engineers')
 
 const router = Router()
 const { authorizationEngineer, authorizationToAllUser } = require('../middleware/authentication')
@@ -12,7 +12,7 @@ router.get('/', authorizationToAllUser, getAllEngineer)
 
 router.get('/filter/', authorizationToAllUser, getFilterEngineer)
 
-router.get('/:enId', authorizationToAllUser, getEngineerById)
+router.get('/:acId', authorizationToAllUser, getEngineerByAcId)
 
 router.get('/completeEngineer/:enId', authorizationToAllUser, getCompleteEngineerById)
 

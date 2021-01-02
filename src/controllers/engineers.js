@@ -1,6 +1,6 @@
 // const db = require('../helpers/db')
 const { statusNotFound, statusErrorServer, statusReadEngineerById, statusUpdateData, statusFailedUpdate, statusReadCompleteEngineerById, statusReadAllEngineer } = require('../helpers/statusCRUD')
-const { getAllEngineerModel, getSearchEngineerModel, getFilterEngineerModel, getEngineerByIdModel, getCompleteEngineerByIdModel, updateAllEngineerByIdModel } = require('../models/engineers')
+const { getAllEngineerModel, getSearchEngineerModel, getFilterEngineerModel, getEngineerByAcIdModel, getCompleteEngineerByIdModel, updateAllEngineerByIdModel } = require('../models/engineers')
 
 const isEmpty = require('lodash.isempty')
 
@@ -45,13 +45,13 @@ module.exports = {
       statusErrorServer(res, error)
     }
   },
-  getEngineerById: async (req, res) => {
+  getEngineerByAcId: async (req, res) => {
     try {
-      const { enId } = req.params
+      const { acId } = req.params
 
-      const result = await getEngineerByIdModel(enId)
+      const result = await getEngineerByAcIdModel(acId)
       if (result.length) {
-        statusReadEngineerById(res, result, enId)
+        statusReadEngineerById(res, result, acId)
       } else {
         statusNotFound(res, result)
       }

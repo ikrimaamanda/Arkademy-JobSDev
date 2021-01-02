@@ -1,6 +1,6 @@
 // const db = require('../helpers/db')
 const { statusRead, statusNotFound, statusErrorServer, statusReadCompanyById, statusUpdateData, statusFailedUpdate } = require('../helpers/statusCRUD')
-const { getAllCompanyModel, getCompanyByIdModel, updateAllCompanyByIdModel } = require('../models/companies')
+const { getAllCompanyModel, getCompanyByAcIdModel, updateAllCompanyByIdModel } = require('../models/companies')
 
 module.exports = {
   getAllCompany: async (req, res) => {
@@ -16,13 +16,13 @@ module.exports = {
       statusErrorServer(res, error)
     }
   },
-  getCompanyById: async (req, res) => {
+  getCompanyByAcId: async (req, res) => {
     try {
-      const { companyId } = req.params
+      const { acId } = req.params
 
-      const result = await getCompanyByIdModel(companyId)
+      const result = await getCompanyByAcIdModel(acId)
       if (result.length) {
-        statusReadCompanyById(res, result, companyId)
+        statusReadCompanyById(res, result, acId)
       } else {
         statusNotFound(res, result)
       }
