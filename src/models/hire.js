@@ -1,4 +1,5 @@
 const db = require('../helpers/db')
+const { formatDate } = require('../helpers/date')
 
 module.exports = {
   getAllHireModel: () => {
@@ -93,6 +94,13 @@ module.exports = {
   },
   updateAllHireByIdModel: (data, hireId) => {
     return new Promise((resolve, reject) => {
+      const date = new Date()
+
+      data = {
+        hr_status: data.hr_status,
+        hr_date_confirm: formatDate(date)
+      }
+
       const query = `UPDATE hire SET ? WHERE hr_id = ${hireId}`
 
       db.query(query, data, (err, result, fields) => {
