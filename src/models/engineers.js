@@ -101,6 +101,24 @@ module.exports = {
       })
     })
   },
+  getEngineerByIdModel: (enId) => {
+    return new Promise((resolve, reject) => {
+      const query = `SELECT en.en_id, ac.ac_id, ac.ac_name, ac.ac_email, ac.ac_phone_number, 
+      en.en_job_title, en.en_job_type, en.en_location, en.en_description, en.en_profile_pict
+      FROM engineer en
+      JOIN account ac
+      ON (ac.ac_id = en.ac_id)
+      WHERE en.en_id = ${enId}`
+
+      db.query(query, (err, result, fields) => {
+        if (!err) {
+          resolve(result)
+        } else {
+          reject(new Error(err))
+        }
+      })
+    })
+  },
   getEngineerByAcIdModel: (acId) => {
     return new Promise((resolve, reject) => {
       const query = `SELECT en.en_id, ac.ac_id, ac.ac_name, ac.ac_email, ac.ac_phone_number, 

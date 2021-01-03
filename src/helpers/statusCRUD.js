@@ -130,10 +130,17 @@ module.exports = {
   },
 
   // status success to get engineer by id
-  statusReadEngineerById: (res, result, acId) => {
+  statusReadEngineerByAcId: (res, result, acId) => {
     res.status(200).send({
       success: true,
       message: `Engineer with account id ${acId}`,
+      data: result[0]
+    })
+  },
+  statusReadEngineerById: (res, result, enId) => {
+    res.status(200).send({
+      success: true,
+      message: `Engineer with engineer id ${enId}`,
       data: result[0]
     })
   },
@@ -156,10 +163,17 @@ module.exports = {
   },
 
   // status success to get company by id
-  statusReadCompanyById: (res, result, acId) => {
+  statusReadCompanyByAcId: (res, result, acId) => {
     res.status(200).send({
       success: true,
       message: `Company with account id ${acId}`,
+      data: result[0]
+    })
+  },
+  statusReadCompanyById: (res, result, cnId) => {
+    res.status(200).send({
+      success: true,
+      message: `Company with company id ${cnId}`,
       data: result[0]
     })
   },
