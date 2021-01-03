@@ -12,7 +12,7 @@ router.get('/getHireByEnId/:enId', authorizationEngineer, getHireByEnId)
 
 router.post('/', authorizationRecruiter, createHire)
 
-router.put('/:hireId', authorizationRecruiter, updateAllHireById)
+router.put('/:hireId', authorizationEngineer, updateAllHireById)
 
 router.delete('/:hireId', authorizationRecruiter, deleteHireById)
 
