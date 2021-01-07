@@ -83,7 +83,7 @@ module.exports = {
             let payload = {
               ac_id, ac_email, ac_level
             }
-            const token = jwt.sign(payload, process.env.JWT_KEY, { expiresIn: '1H' })
+            const token = jwt.sign(payload, process.env.JWT_KEY, { expiresIn: '24H' })
             payload = { ...payload, token }
             statusLogin(res, payload)
           } else {

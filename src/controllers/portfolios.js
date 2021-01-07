@@ -45,7 +45,7 @@ module.exports = {
         en_id: enId
       }
 
-      if (prAppName.trim() && prDesc.trim() && prLinkPub.trim() && prLinkRepo.trim() && prWorkplace.trim() && prType.trim() && image.trim() && enId.trim()) {
+      if (prAppName.trim() && prDesc.trim() && prLinkPub.trim() && prLinkRepo.trim() && prWorkplace.trim() && prType.trim() && enId.trim()) {
         const result = await createPortfolioModel(setData)
         if (result.affectedRows) {
           statusPost(res, result)
