@@ -1,6 +1,7 @@
 // const db = require('../helpers/db')
 const { statusRead, statusNotFound, statusErrorServer, statusPost, statusFailedAddData, statusUpdateData, statusFailedUpdate, statusDeleteById, statusFailedDeleteById, statusReadProjectByCnId, statusMustFillAllFields } = require('../helpers/statusCRUD')
 const { getAllProjectModel, createProjectModel, getProjectByIdModel, getProjectByCnIdModel, deleteProjectByIdModel, updateAllProjectByIdModel } = require('../models/projects')
+const { getCompanyByIdModel } = require('../models/companies')
 
 module.exports = {
   getAllProject: async (req, res) => {
@@ -42,12 +43,17 @@ module.exports = {
         cn_id: cnId
       }
 
-      if (projectName.trim() && projectDesc.trim() && projectDeadline.trim() && image.trim() && cnId.trim()) {
-        const result = await createProjectModel(setData)
-        if (result.affectedRows) {
-          statusPost(res, result)
+      if (projectName.trim() && projectDesc.trim() && projectDeadline.trim() && cnId.trim()) {
+        const resultSelect = await getCompanyByIdModel(cnId)
+        if (resultSelect.length) {
+          const result = await createProjectModel(setData)
+          if (result.affectedRows) {
+            statusPost(res, result)
+          } else {
+            statusFailedAddData(res, result)
+          }
         } else {
-          statusFailedAddData(res, result)
+          statusNotFound(res, resultSelect)
         }
       } else {
         statusMustFillAllFields(res)
