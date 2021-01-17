@@ -9,7 +9,7 @@ module.exports = {
     let { search, limit, page } = req.query
 
     if (!limit) {
-      limit = 100
+      limit = 500
     } else {
       limit = parseInt(limit)
     }
@@ -121,7 +121,7 @@ module.exports = {
     let { filter, limit, page } = req.query
 
     if (!limit) {
-      limit = 10
+      limit = 500
     } else {
       limit = parseInt(limit)
     }
